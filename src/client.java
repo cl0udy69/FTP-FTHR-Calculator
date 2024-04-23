@@ -22,9 +22,17 @@ public class client {
             }
 
             FTP = (int) (power * conversion);
-            System.out.println("Your FTP is " + FTP);
+            System.out.println("Your FTP is " + FTP + ". Would you like to do something else?");
             while (true) {
                 selection = scanner.nextLine();
+                if (selection.equalsIgnoreCase("yes") || selection.equalsIgnoreCase("y")){
+                    System.out.println("What would you like to do?");
+                    selection = scanner.nextLine();
+                    if (selection.equalsIgnoreCase("calculate ftp") || (selection.equalsIgnoreCase("calculate functional threshold power")) || 
+                    (selection.equalsIgnoreCase("ftp")) || (selection.equalsIgnoreCase("functional theshold power"))) {
+                        functionalThresholdPower.FTP();
+                    }
+                }
             }
         } 
         scanner.close();
