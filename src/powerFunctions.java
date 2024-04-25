@@ -1,8 +1,10 @@
 import java.util.Scanner;
 
-public class Power {
-    public static void FTP () {
+public class powerFunctions {
+    public void calculateFTP() {
         Scanner scanner = new Scanner(System.in);
+        powerFunctions powerFunc = new powerFunctions();
+        heartRateFunctions heartRateFunc = new heartRateFunctions();
 
         String selection = "";
         int power = 0;
@@ -32,11 +34,15 @@ public class Power {
                     selection = scanner.nextLine();
                     if (selection.equalsIgnoreCase("calculate ftp") || (selection.equalsIgnoreCase("calculate functional threshold power")) || 
                     (selection.equalsIgnoreCase("ftp")) || (selection.equalsIgnoreCase("functional threshold power"))) {
-                        Power.FTP();
-                    } 
+                        powerFunc.calculateFTP();
+                    } else if (selection.equalsIgnoreCase("lthr") || selection.equalsIgnoreCase("lactate threshold heart rate")
+                    || selection.equalsIgnoreCase("calculate lthr") || selection.equalsIgnoreCase("calculate lactate threshold heart rate")) {
+                        heartRateFunc.calculateHeartRate();
+                    } else {
+                        System.out.println("Thank you for using my program!");
+                    }
                 }
-            scanner.close();
+                scanner.close();
+            }
         }
-    }
 }
-
