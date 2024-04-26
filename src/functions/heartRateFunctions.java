@@ -16,10 +16,13 @@ public class heartRateFunctions {
 
         if (selection.equalsIgnoreCase("cycling") || selection.equalsIgnoreCase("biking")) {
             System.out.println("Enter your best 20 minute heart rate: ");
-            try {
-                heartRate = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException nfe) {
-                System.out.println("Invalid input");
+            while (true) {
+                try {
+                    heartRate = Integer.parseInt(scanner.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Please enter a valid number.");
+                }
             }
             LTHR = (int) (heartRate * 0.95);
             System.out.println("Your LTHR is " + LTHR);

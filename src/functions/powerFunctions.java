@@ -13,12 +13,14 @@ public class powerFunctions {
         int FTP;
 
         System.out.println("Enter your best 20 minute power: ");
+        while (true) {
             try {
                 power = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException nfe) {
-                System.out.println("Invalid input");
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
             }
-
+        }
             FTP = (int) (power * 0.95);
             System.out.println("Your FTP is " + FTP);
             System.out.println("Zone 1: " + (int) (FTP * 0) + " - " + (int) (FTP * 0.55));
