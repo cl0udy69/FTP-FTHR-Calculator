@@ -1,3 +1,4 @@
+package functions;
 import java.util.Scanner;
 
 public class powerFunctions {
@@ -5,6 +6,7 @@ public class powerFunctions {
         Scanner scanner = new Scanner(System.in);
         powerFunctions powerFunc = new powerFunctions();
         heartRateFunctions heartRateFunc = new heartRateFunctions();
+        trainingStressScoreFunctions tssFunc = new trainingStressScoreFunctions();
 
         String selection = "";
         int power = 0;
