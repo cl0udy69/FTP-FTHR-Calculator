@@ -4,11 +4,10 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class GUI extends JFrame {
-    private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, saveDataButton;
+    private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, saveDataButton, loadDataButton;
     private JTextArea outputTextArea;
 
     public GUI() {
@@ -18,7 +17,7 @@ public class GUI extends JFrame {
         setLayout(new BorderLayout());
 
         // Panel for buttons
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 4, 20, 20));
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 5, 20, 20));
         buttonPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         // Add icons to buttons
@@ -29,11 +28,13 @@ public class GUI extends JFrame {
         calculateLTHRButton = new JButton("Calculate LTHR");
         calculateLTHRButton.setIcon(new ImageIcon("lthr_icon.png"));
         saveDataButton = new JButton("Save Data");
+        loadDataButton = new JButton("Load Data");
 
         buttonPanel.add(calculateFTPButton);
         buttonPanel.add(calculateTSSButton);
         buttonPanel.add(calculateLTHRButton);
         buttonPanel.add(saveDataButton);
+        buttonPanel.add(loadDataButton);
 
         // Text area for output
         outputTextArea = new JTextArea();
@@ -50,6 +51,7 @@ public class GUI extends JFrame {
         calculateTSSButton.addActionListener(new CalculateTSSListener());
         calculateLTHRButton.addActionListener(new CalculateLTHRListener());
         saveDataButton.addActionListener(new SaveDataListener());
+        loadDataButton.addActionListener(new LoadDataListener());
 
         // Prompt user to save data before closing the application
         addWindowListener(new WindowAdapter() {
@@ -66,22 +68,6 @@ public class GUI extends JFrame {
                 }
             }
         });
-    }
-
-    private void saveData() {
-        String data = outputTextArea.getText();
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showSaveDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            try (FileWriter writer = new FileWriter(fileChooser.getSelectedFile())) {
-                writer.write(data);
-                JOptionPane.showMessageDialog(this, "Data saved successfully!", "Success",
-                        JOptionPane.INFORMATION_MESSAGE);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "Error saving data: " + e.getMessage(), "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
     }
 
     private class CalculateFTPListener implements ActionListener {
@@ -191,6 +177,43 @@ public class GUI extends JFrame {
     private class SaveDataListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             saveData();
+        }
+    }
+
+    private class LoadDataListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            loadData();
+        }
+    }
+
+    private void saveData() {
+        String data = outputTextArea.getText();
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try (FileWriter writer = new FileWriter(fileChooser.getSelectedFile())) {
+                writer.write(data);
+                JOptionPane.showMessageDialog(this, "Data saved successfully!", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Error saving data: " + e.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void loadData() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(fileChooser.getSelectedFile()))) {
+                outputTextArea.read(reader, null);
+                JOptionPane.showMessageDialog(this, "Data loaded successfully!", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
