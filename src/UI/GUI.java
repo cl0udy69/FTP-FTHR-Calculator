@@ -1,49 +1,205 @@
 package UI;
+
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.NumberFormat;
-import java.util.Random;
+import java.io.FileWriter;
+import java.io.IOException;
 
+public class GUI extends JFrame {
+    private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, saveDataButton;
+    private JTextArea outputTextArea;
 
-public class GUI extends JFrame{
-    private JTextArea outputArea;
-    private JTextField inputField;
-    private JButton button;
+    public GUI() {
+        setTitle("Fitness Calculator");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-    public GUI(){
-        setTitle("Cycling Calculator");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        seetSize(400, 300);
-        setLocationRelativeTo(null);
+        // Panel for buttons
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 4, 20, 20));
+        buttonPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        //create output area
-        outputArea = new JTextArea(10, 30);
-        outputArea.setEditable(false);
-        outputArea.setLineWrap(true);
-        outputArea.setWrapStyleWord(true);
-        outputArea.setBackground(new Color(48, 48, 48));
-        outputArea.setForeground(Color.WHITE);
-        JScrollPane scrollPane = new JScrollPane(outputArea);
+        // Add icons to buttons
+        calculateFTPButton = new JButton("Calculate FTP");
+        calculateFTPButton.setIcon(new ImageIcon("ftp_icon.png"));
+        calculateTSSButton = new JButton("Calculate TSS");
+        calculateTSSButton.setIcon(new ImageIcon("tss_icon.png"));
+        calculateLTHRButton = new JButton("Calculate LTHR");
+        calculateLTHRButton.setIcon(new ImageIcon("lthr_icon.png"));
+        saveDataButton = new JButton("Save Data");
 
-        //create text field for entering data
-        dataField = JTextField(10);
-        dataField.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                button.doClick();
+        buttonPanel.add(calculateFTPButton);
+        buttonPanel.add(calculateTSSButton);
+        buttonPanel.add(calculateLTHRButton);
+        buttonPanel.add(saveDataButton);
+
+        // Text area for output
+        outputTextArea = new JTextArea();
+        outputTextArea.setEditable(false);
+        outputTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        JScrollPane scrollPane = new JScrollPane(outputTextArea);
+
+        // Add components to the frame
+        add(buttonPanel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // Add action listeners
+        calculateFTPButton.addActionListener(new CalculateFTPListener());
+        calculateTSSButton.addActionListener(new CalculateTSSListener());
+        calculateLTHRButton.addActionListener(new CalculateLTHRListener());
+        saveDataButton.addActionListener(new SaveDataListener());
+
+        // Prompt user to save data before closing the application
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int option = JOptionPane.showConfirmDialog(GUI.this,
+                        "Do you want to save your data before exiting?", "Save Data",
+                        JOptionPane.YES_NO_CANCEL_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    saveData();
+                    dispose(); // Close the application after saving
+                } else if (option == JOptionPane.NO_OPTION) {
+                    dispose(); // Close the application without saving
+                }
             }
         });
+    }
 
-        //create button panel
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
-        buttonPanel.add(new JLabel("Enter data: "));
-        buttonPanel.add(dataField);
-        buttonPanel.add(button);
+    private void saveData() {
+        String data = outputTextArea.getText();
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try (FileWriter writer = new FileWriter(fileChooser.getSelectedFile())) {
+                writer.write(data);
+                JOptionPane.showMessageDialog(this, "Data saved successfully!", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Error saving data: " + e.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 
-        //add panels to the frame
-        add(scrollPane, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
+    private class CalculateFTPListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            try {
+                String input = JOptionPane.showInputDialog("Enter your best 20 minute power: ");
+                if (input == null)
+                    return; // Cancel button pressed
+                int power = Integer.parseInt(input);
+                if (power <= 0) {
+                    throw new NumberFormatException();
+                }
+                int FTP = (int) (power * 0.95);
+                outputTextArea.setText("Your FTP is " + FTP + "\n");
+                outputTextArea.append("Zone 1: " + (int) (FTP * 0) + " - " + (int) (FTP * 0.55) + "\n");
+                outputTextArea.append("Zone 2: " + (int) (FTP * 0.55) + " - " + (int) (FTP * 0.75) + "\n");
+                outputTextArea.append("Zone 3: " + (int) (FTP * 0.75) + " - " + (int) (FTP * 0.87) + "\n");
+                outputTextArea.append("Zone 4: " + (int) (FTP * 0.87) + " - " + (int) (FTP * 0.94) + "\n");
+                outputTextArea.append("Zone 5: " + (int) (FTP * 0.94) + " - " + (int) (FTP * 1.05) + "\n");
+                outputTextArea.append("Zone 6: " + (int) (FTP * 1.05) + " - " + (int) (FTP * 1.20) + "\n");
+                outputTextArea.append("Zone 7: " + (int) (FTP * 1.20) + " - " + (int) (FTP * 1.25) + "\n");
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid positive number for Power.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                actionPerformed(event); // Prompt again for valid data
+            }
+        }
+    }
+
+    private class CalculateTSSListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            try {
+                String input = JOptionPane.showInputDialog("Enter the duration of your ride (in minutes): ");
+                if (input == null)
+                    return; // Cancel button pressed
+                int duration = Integer.parseInt(input);
+                if (duration <= 0) {
+                    throw new NumberFormatException();
+                }
+                int normalizedPower = Integer.parseInt(JOptionPane.showInputDialog("Enter your normalized power: "));
+                float intensityFactor = Float.parseFloat(JOptionPane.showInputDialog("Enter your intensity factor: "));
+                int functionalThresholdPower = Integer
+                        .parseInt(JOptionPane.showInputDialog("Enter your functional threshold power: "));
+
+                int tss = (int) (((duration * normalizedPower * intensityFactor) / (functionalThresholdPower * 3600))
+                        * 100);
+                outputTextArea.setText("Your training stress score is: " + tss);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null,
+                        "Please enter valid positive numbers for Duration, Normalized Power, Intensity Factor, and FTP.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                actionPerformed(event); // Prompt again for valid data
+            }
+        }
+    }
+
+    private class CalculateLTHRListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            String[] options = { "Cycling", "Running" };
+            int choice = JOptionPane.showOptionDialog(null, "Do you want to calculate cycling or running zones?",
+                    "Choose Activity",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+            if (choice == JOptionPane.CLOSED_OPTION) {
+                return; // User closed the dialog
+            }
+
+            String activity = options[choice];
+
+            try {
+                String input = JOptionPane.showInputDialog("Enter your best 20 minute heart rate: ");
+                if (input == null)
+                    return; // Cancel button pressed
+                int heartRate = Integer.parseInt(input);
+                if (heartRate <= 0) {
+                    throw new NumberFormatException();
+                }
+                int LTHR = (int) (heartRate * 0.95);
+
+                outputTextArea.setText("Your LTHR is " + LTHR + "\n");
+
+                if (activity.equals("Cycling")) {
+                    outputTextArea.append("Zone 1: " + (int) (LTHR * 0) + " - " + (int) (LTHR * 0.81) + "\n");
+                    outputTextArea.append("Zone 2: " + (int) (LTHR * 0.81) + " - " + (int) (heartRate * 0.89) + "\n");
+                    outputTextArea.append("Zone 3: " + (int) (LTHR * 0.90) + " - " + (int) (LTHR * 0.93) + "\n");
+                    outputTextArea.append("Zone 4: " + (int) (LTHR * 0.94) + " - " + (int) (LTHR * 0.99) + "\n");
+                    outputTextArea.append("Zone 5a: " + (int) (LTHR * 1.00) + " - " + (int) (LTHR * 1.02) + "\n");
+                    outputTextArea.append("Zone 5b: " + (int) (LTHR * 1.03) + " - " + (int) (LTHR * 1.06) + "\n");
+                    outputTextArea.append("Zone 5c: " + (int) (LTHR * 1.06) + " <" + "\n");
+                } else if (activity.equals("Running")) {
+                    outputTextArea.append("Zone 1: " + (int) (LTHR * 0) + " - " + (int) (LTHR * 0.85) + "\n");
+                    outputTextArea.append("Zone 2: " + (int) (LTHR * 0.85) + " - " + (int) (LTHR * 0.89) + "\n");
+                    outputTextArea.append("Zone 3: " + (int) (LTHR * 0.90) + " - " + (int) (LTHR * 0.94) + "\n");
+                    outputTextArea.append("Zone 4: " + (int) (LTHR * 0.95) + " - " + (int) (LTHR * 0.99) + "\n");
+                    outputTextArea.append("Zone 5a: " + (int) (LTHR * 1.00) + " - " + (int) (LTHR * 1.02) + "\n");
+                    outputTextArea.append("Zone 5b: " + (int) (LTHR * 1.03) + " - " + (int) (LTHR * 1.06) + "\n");
+                    outputTextArea.append("Zone 5c: " + (int) (LTHR * 1.06) + " <" + "\n");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid positive number for Heart Rate.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                actionPerformed(event); // Prompt again for valid data
+            }
+        }
+    }
+
+    private class SaveDataListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            saveData();
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                GUI gui = new GUI();
+                gui.setVisible(true);
+            }
+        });
     }
 }
-
-
