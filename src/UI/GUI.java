@@ -174,6 +174,11 @@ public class GUI extends JFrame {
         }
     }
 
+    private class createTrainingPlanListener impliments ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            
+    }
+
     private class SaveDataListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             saveData();
