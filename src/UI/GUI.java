@@ -49,7 +49,7 @@ public class GUI extends JFrame {
         // Text area for output
         outputTextArea = new JTextArea();
         outputTextArea.setEditable(false);
-        outputTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        outputTextArea.setFont(new Font("Montserrat", Font.PLAIN, 17));
         JScrollPane scrollPane = new JScrollPane(outputTextArea);
 
         // Add components to the frame
@@ -57,26 +57,10 @@ public class GUI extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         // Add action listeners
-        calculateFTPButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                calculateFTP();
-            }
-        });
-        calculateTSSButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                calculateTSS();
-            }
-        });
-        calculateLTHRButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                calculateLTHR();
-            }
-        });
-        createTrainingPlanButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                createTrainingPlan();
-            }
-        });
+        calculateFTPButton.addActionListener(e -> calculateFTP());
+        calculateTSSButton.addActionListener(e -> calculateTSS());
+        calculateLTHRButton.addActionListener(e -> calculateLTHR());
+        createTrainingPlanButton.addActionListener(e -> createTrainingPlan());
         saveDataButton.addActionListener(new SaveDataListener());
         loadDataButton.addActionListener(new LoadDataListener());
 
@@ -100,18 +84,18 @@ public class GUI extends JFrame {
     // Method to calculate FTP
     private void calculateFTP() {
         try {
-            String input = JOptionPane.showInputDialog("Enter your best 20 minute power or click 'Skip' to skip: ");
+            String input = JOptionPane
+                    .showInputDialog("Enter your best 20 minute power: \n(Enter 'skip' to skip this step)");
             if (input == null || input.isEmpty())
-                return; // Cancel button pressed or skipped
+                return; // Cancel button pressed
             if (input.equalsIgnoreCase("skip")) {
                 currentActionIndex++;
                 processNextAction();
                 return;
             }
             int power = Integer.parseInt(input);
-            if (power <= 0) {
+            if (power <= 0)
                 throw new NumberFormatException();
-            }
             int FTP = (int) (power * 0.95);
             outputTextArea.setText("Your FTP is " + FTP + "\n");
             outputTextArea.append("Zone 1: " + (int) (FTP * 0) + " - " + (int) (FTP * 0.55) + "\n");
@@ -131,21 +115,22 @@ public class GUI extends JFrame {
     // Method to calculate TSS
     private void calculateTSS() {
         try {
-            String input = JOptionPane.showInputDialog("Enter the duration of your ride (in minutes) or click 'Skip' to skip: ");
+            String input = JOptionPane.showInputDialog(
+                    "Enter the duration of your ride (in minutes): \n(Enter 'skip' to skip this step)");
             if (input == null || input.isEmpty())
-                return; // Cancel button pressed or skipped
+                return; // Cancel button pressed
             if (input.equalsIgnoreCase("skip")) {
                 currentActionIndex++;
                 processNextAction();
                 return;
             }
             int duration = Integer.parseInt(input);
-            if (duration <= 0) {
+            if (duration <= 0)
                 throw new NumberFormatException();
-            }
-            int normalizedPower = Integer.parseInt(JOptionPane.showInputDialog("Enter your normalized power or click 'Skip' to skip: "));
-            float intensityFactor = Float.parseFloat(JOptionPane.showInputDialog("Enter your intensity factor or click 'Skip' to skip: "));
-            int functionalThresholdPower = Integer.parseInt(JOptionPane.showInputDialog("Enter your functional threshold power or click 'Skip' to skip: "));
+            int normalizedPower = Integer.parseInt(JOptionPane.showInputDialog("Enter your normalized power: "));
+            float intensityFactor = Float.parseFloat(JOptionPane.showInputDialog("Enter your intensity factor: "));
+            int functionalThresholdPower = Integer
+                    .parseInt(JOptionPane.showInputDialog("Enter your functional threshold power: "));
 
             int tss = (int) (((duration * normalizedPower * intensityFactor) / (functionalThresholdPower * 3600))
                     * 100);
@@ -165,25 +150,24 @@ public class GUI extends JFrame {
                 "Choose Activity",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
-        if (choice == JOptionPane.CLOSED_OPTION) {
+        if (choice == JOptionPane.CLOSED_OPTION)
             return; // User closed the dialog
-        }
 
         String activity = options[choice];
 
         try {
-            String input = JOptionPane.showInputDialog("Enter your best 20 minute heart rate or click 'Skip' to skip: ");
+            String input = JOptionPane
+                    .showInputDialog("Enter your best 20 minute heart rate: \n(Enter 'skip' to skip this step)");
             if (input == null || input.isEmpty())
-                return; // Cancel button pressed or skipped
+                return; // Cancel button pressed
             if (input.equalsIgnoreCase("skip")) {
                 currentActionIndex++;
                 processNextAction();
                 return;
             }
             int heartRate = Integer.parseInt(input);
-            if (heartRate <= 0) {
+            if (heartRate <= 0)
                 throw new NumberFormatException();
-            }
             int LTHR = (int) (heartRate * 0.95);
 
             outputTextArea.setText("Your LTHR is " + LTHR + "\n");
@@ -214,22 +198,33 @@ public class GUI extends JFrame {
 
     // Method to create training plan
     private void createTrainingPlan() {
-        String objective = JOptionPane.showInputDialog("What is the key object of the training ride or click 'Skip' to skip: ");
+        String[] options = { "Cycling", "Running" };
+        int choice = JOptionPane.showOptionDialog(null, "What is the key object of the training ride?",
+                "Choose Objective",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        if (choice == JOptionPane.CLOSED_OPTION)
+            return; // User closed the dialog
+
+        String objective = options[choice];
+
         try {
-            String input = JOptionPane.showInputDialog("Enter the duration of your ride (in minutes) or click 'Skip' to skip: ");
+            String input = JOptionPane.showInputDialog(
+                    "Enter the duration of your ride (in minutes): \n(Enter 'skip' to skip this step)");
             if (input == null || input.isEmpty())
-                return; // Cancel button pressed or skipped
+                return; // Cancel button pressed
             if (input.equalsIgnoreCase("skip")) {
                 currentActionIndex++;
                 processNextAction();
                 return;
             }
             int duration = Integer.parseInt(input);
-            if (duration <= 0) {
+            if (duration <= 0)
                 throw new NumberFormatException();
-            }
-            int estimatedAvgPower = Integer.parseInt(JOptionPane.showInputDialog("Enter your average estimated power or click 'Skip' to skip: "));
-            int estimatedAvgHeartRate = Integer.parseInt(JOptionPane.showInputDialog("Enter your average estimated heart rate or click 'Skip' to skip: "));
+            int estimatedAvgPower = Integer
+                    .parseInt(JOptionPane.showInputDialog("Enter your average estimated power: "));
+            int estimatedAvgHeartRate = Integer
+                    .parseInt(JOptionPane.showInputDialog("Enter your average estimated heart rate: "));
             // add interval zones
             // add interval sessions
             // add avg cadence
@@ -240,7 +235,7 @@ public class GUI extends JFrame {
             // add route upload
             // pacing
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Please enter valid positive numbers or click 'Skip' to skip.", "Error",
+            JOptionPane.showMessageDialog(null, "Please enter valid positive numbers.", "Error",
                     JOptionPane.ERROR_MESSAGE);
             createTrainingPlan(); // Prompt again for valid data
         }
@@ -289,37 +284,21 @@ public class GUI extends JFrame {
         }
     }
 
-    // Method to process the next action
     private void processNextAction() {
         if (currentActionIndex >= options.length) {
-            JOptionPane.showMessageDialog(this, "All actions completed!", "Success",
-                    JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No more actions to process.", "Info", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        switch (options[currentActionIndex]) {
-            case "Calculate FTP":
-                calculateFTP();
-                break;
-            case "Calculate TSS":
-                calculateTSS();
-                break;
-            case "Calculate LTHR":
-                calculateLTHR();
-                break;
-            case "Create Training Plan":
-                createTrainingPlan();
-                break;
-            default:
-                break;
-        }
+        String nextAction = options[currentActionIndex++];
+        JOptionPane.showMessageDialog(this, "Processing next action: " + nextAction, "Info",
+                JOptionPane.INFORMATION_MESSAGE);
+        // Additional logic for processing the next action
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                GUI gui = new GUI();
-                gui.setVisible(true);
-            }
+        SwingUtilities.invokeLater(() -> {
+            GUI gui = new GUI();
+            gui.setVisible(true);
         });
     }
 }
