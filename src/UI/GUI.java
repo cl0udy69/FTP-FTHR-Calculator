@@ -7,17 +7,18 @@ import java.awt.event.*;
 import java.io.*;
 
 public class GUI extends JFrame {
-    private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, saveDataButton, loadDataButton;
+    private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, createTrainingPlanButton,
+            saveDataButton, loadDataButton;
     private JTextArea outputTextArea;
 
     public GUI() {
-        setTitle("Fitness Calculator");
-        setSize(600, 400);
+        setTitle("Propel");
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // Panel for buttons
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 5, 20, 20));
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 5, 20, 20));
         buttonPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         // Add icons to buttons
@@ -27,12 +28,15 @@ public class GUI extends JFrame {
         calculateTSSButton.setIcon(new ImageIcon("tss_icon.png"));
         calculateLTHRButton = new JButton("Calculate LTHR");
         calculateLTHRButton.setIcon(new ImageIcon("lthr_icon.png"));
+        createTrainingPlanButton = new JButton("Create Training Plan");
+        createTrainingPlanButton.setIcon(new ImageIcon("training_plan_icon.png"));
         saveDataButton = new JButton("Save Data");
         loadDataButton = new JButton("Load Data");
 
         buttonPanel.add(calculateFTPButton);
         buttonPanel.add(calculateTSSButton);
         buttonPanel.add(calculateLTHRButton);
+        buttonPanel.add(createTrainingPlanButton);
         buttonPanel.add(saveDataButton);
         buttonPanel.add(loadDataButton);
 
@@ -50,6 +54,7 @@ public class GUI extends JFrame {
         calculateFTPButton.addActionListener(new CalculateFTPListener());
         calculateTSSButton.addActionListener(new CalculateTSSListener());
         calculateLTHRButton.addActionListener(new CalculateLTHRListener());
+        createTrainingPlanButton.addActionListener(new CreateTrainingPlanListener());
         saveDataButton.addActionListener(new SaveDataListener());
         loadDataButton.addActionListener(new LoadDataListener());
 
@@ -174,9 +179,36 @@ public class GUI extends JFrame {
         }
     }
 
-    private class createTrainingPlanListener impliments ActionListener {
+    private class CreateTrainingPlanListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            
+            String objective = JOptionPane.showInputDialog("What is the key object of the training ride: ");
+            try {
+                String input = JOptionPane.showInputDialog("Enter the duration of your ride (in minutes): ");
+                if (input == null)
+                    return; // Cancel button pressed
+                int duration = Integer.parseInt(input);
+                if (duration <= 0) {
+                    throw new NumberFormatException();
+                }
+                int estimatedAvgPower = Integer
+                        .parseInt(JOptionPane.showInputDialog("Enter your average estimated power: "));
+                int estimatedAvgHeartRate = Integer
+                        .parseInt(JOptionPane.showInputDialog("Enter your average estimated heart rate: "));
+                // add interval zones
+                // add interval sessions
+                // add avg cadence
+                // add the ability to combine cadence and interval zones
+                // add hydration
+                // add nutrition
+                // add estimated TSS
+                // add route upload
+                // pacing
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Please enter valid positive numbers.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                actionPerformed(event); // Prompt again for valid data
+            }
+        }
     }
 
     private class SaveDataListener implements ActionListener {
