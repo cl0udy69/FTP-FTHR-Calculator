@@ -209,8 +209,7 @@ public class GUI extends JFrame {
         String objective = options[choice];
 
         try {
-            String input = JOptionPane.showInputDialog(
-                    "Enter the duration of your ride (in minutes): \n(Enter 'skip' to skip this step)");
+            String input = JOptionPane.showInputDialog("Enter the duration of your ride (in minutes): \n(Enter 'skip' to skip this step)");
             if (input == null || input.isEmpty())
                 return; // Cancel button pressed
             if (input.equalsIgnoreCase("skip")) {
@@ -221,13 +220,11 @@ public class GUI extends JFrame {
             int duration = Integer.parseInt(input);
             if (duration <= 0)
                 throw new NumberFormatException();
-            int estimatedAvgPower = Integer
-                    .parseInt(JOptionPane.showInputDialog("Enter your average estimated power: "));
-            int estimatedAvgHeartRate = Integer
-                    .parseInt(JOptionPane.showInputDialog("Enter your average estimated heart rate: "));
-            // add interval zones
-            // add interval sessions
-            // add avg cadence
+            int estimatedAvgPower = Integer.parseInt(JOptionPane.showInputDialog("Enter your average estimated power: "));
+            int estimatedAvgHeartRate = Integer.parseInt(JOptionPane.showInputDialog("Enter your average estimated heart rate: "));
+            int estimatedAvgCadence = Integer.parseInt(JOptionPane.showInputDialog(""));
+            int intervalZones = Integer.parseInt(JOptionPane.showInputDialog("Enter the specific training zones you are going to work in:"));
+            int intervalWorkout = Integer.parseInt(JOptionPane.showInputDialog("Enter your intervals:"));
             // add the ability to combine cadence and interval zones
             // add hydration
             // add nutrition
