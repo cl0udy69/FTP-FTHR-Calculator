@@ -225,7 +225,7 @@ public class GUI extends JFrame {
                     int estimatedAvgPower = Integer.parseInt(JOptionPane.showInputDialog("Enter your average estimated power: "));
                     int estimatedAvgHeartRate = Integer.parseInt(JOptionPane.showInputDialog("Enter your average estimated heart rate: "));
                     int estimatedAvgCadence = Integer.parseInt(JOptionPane.showInputDialog("Enter your average estimated cadence: "));
-                    String intervalZones = JOptionPane.showInputDialog("Enter the specific training zones you are going to work in:");
+                    String intervalZones = Integer.parseInt(JOptionPane.showInputDialog("Enter the specific training zones you are going to work in:"));
                     String intervalWorkout = JOptionPane.showInputDialog("Enter workout intervals: ");
                     String heartRateIntervals = JOptionPane.showInputDialog("Would you like to assign a specific heart rate to your intervals: ");
                     String cadenceIntervalWorkout = JOptionPane.showInputDialog("Would you like to assign a specific cadence to your intervals: ");
