@@ -108,152 +108,26 @@ public class GUI extends JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Please enter a valid positive number for Power.", "Error",
                     JOptionPane.ERROR_MESSAGE);
-            calculateFTP(); // Prompt again for valid data
         }
     }
 
     // Method to calculate TSS
     private void calculateTSS() {
-        try {
-            String input = JOptionPane.showInputDialog(
-                    "Enter the duration of your ride (in minutes): \n(Enter 'skip' to skip this step)");
-            if (input == null || input.isEmpty())
-                return; // Cancel button pressed
-            if (input.equalsIgnoreCase("skip")) {
-                currentActionIndex++;
-                processNextAction();
-                return;
-            }
-            int duration = Integer.parseInt(input);
-            if (duration <= 0)
-                throw new NumberFormatException();
-            int normalizedPower = Integer.parseInt(JOptionPane.showInputDialog("Enter your normalized power: "));
-            float intensityFactor = Float.parseFloat(JOptionPane.showInputDialog("Enter your intensity factor: "));
-            int functionalThresholdPower = Integer
-                    .parseInt(JOptionPane.showInputDialog("Enter your functional threshold power: "));
-
-            int tss = (int) (((duration * normalizedPower * intensityFactor) / (functionalThresholdPower * 3600))
-                    * 100);
-            outputTextArea.setText("Your training stress score is: " + tss);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Please enter valid positive numbers for Duration, Normalized Power, Intensity Factor, and FTP.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            calculateTSS(); // Prompt again for valid data
-        }
+        CalculateTSSDialog dialog = new CalculateTSSDialog(this);
+        dialog.setVisible(true);
     }
 
     // Method to calculate LTHR
     private void calculateLTHR() {
-        String[] options = { "Cycling", "Running" };
-        int choice = JOptionPane.showOptionDialog(null, "Do you want to calculate cycling or running zones?",
-                "Choose Activity",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-
-        if (choice == JOptionPane.CLOSED_OPTION)
-            return; // User closed the dialog
-
-        String activity = options[choice];
-
-        try {
-            String input = JOptionPane
-                    .showInputDialog("Enter your best 20 minute heart rate: \n(Enter 'skip' to skip this step)");
-            if (input == null || input.isEmpty())
-                return; // Cancel button pressed
-            if (input.equalsIgnoreCase("skip")) {
-                currentActionIndex++;
-                processNextAction();
-                return;
-            }
-            int heartRate = Integer.parseInt(input);
-            if (heartRate <= 0)
-                throw new NumberFormatException();
-            int LTHR = (int) (heartRate * 0.95);
-
-            outputTextArea.setText("Your LTHR is " + LTHR + "\n");
-
-            if (activity.equals("Cycling")) {
-                outputTextArea.append("Zone 1: " + (int) (LTHR * 0) + " - " + (int) (LTHR * 0.81) + "\n");
-                outputTextArea.append("Zone 2: " + (int) (LTHR * 0.81) + " - " + (int) (heartRate * 0.89) + "\n");
-                outputTextArea.append("Zone 3: " + (int) (LTHR * 0.90) + " - " + (int) (LTHR * 0.93) + "\n");
-                outputTextArea.append("Zone 4: " + (int) (LTHR * 0.94) + " - " + (int) (LTHR * 0.99) + "\n");
-                outputTextArea.append("Zone 5a: " + (int) (LTHR * 1.00) + " - " + (int) (LTHR * 1.02) + "\n");
-                outputTextArea.append("Zone 5b: " + (int) (LTHR * 1.03) + " - " + (int) (LTHR * 1.06) + "\n");
-                outputTextArea.append("Zone 5c: " + (int) (LTHR * 1.06) + " <" + "\n");
-            } else if (activity.equals("Running")) {
-                outputTextArea.append("Zone 1: " + (int) (LTHR * 0) + " - " + (int) (LTHR * 0.85) + "\n");
-                outputTextArea.append("Zone 2: " + (int) (LTHR * 0.85) + " - " + (int) (LTHR * 0.89) + "\n");
-                outputTextArea.append("Zone 3: " + (int) (LTHR * 0.90) + " - " + (int) (LTHR * 0.94) + "\n");
-                outputTextArea.append("Zone 4: " + (int) (LTHR * 0.95) + " - " + (int) (LTHR * 0.99) + "\n");
-                outputTextArea.append("Zone 5a: " + (int) (LTHR * 1.00) + " - " + (int) (LTHR * 1.02) + "\n");
-                outputTextArea.append("Zone 5b: " + (int) (LTHR * 1.03) + " - " + (int) (LTHR * 1.06) + "\n");
-                outputTextArea.append("Zone 5c: " + (int) (LTHR * 1.06) + " <" + "\n");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Please enter a valid positive number for Heart Rate.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            calculateLTHR(); // Prompt again for valid data
-        }
+        CalculateLTHRDialog dialog = new CalculateLTHRDialog(this);
+        dialog.setVisible(true);
     }
 
     // Method to create training plan
     private void createTrainingPlan() {
-        String[] options = { "Cycling", "Running" };
-        int choice = JOptionPane.showOptionDialog(null, "What is the key object of the training ride?",
-                "Choose Objective",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-    
-        if (choice == JOptionPane.CLOSED_OPTION)
-            return; // User closed the dialog
-    
-        String objective = options[choice];
-    
-        if (objective.equals("Cycling")) {
-            try {
-                String input = JOptionPane.showInputDialog("Enter the duration of your ride (in minutes): \n(Enter 'skip' to skip this step)");
-                if (input == null || input.isEmpty())
-                    return; // Cancel button pressed
-                if (input.equalsIgnoreCase("skip")) {
-                    currentActionIndex++;
-                    processNextAction();
-                    return;
-                }
-                int duration = Integer.parseInt(input);
-                if (duration <= 0)
-                    throw new NumberFormatException();
-                    
-                    int estimatedAvgPower = Integer.parseInt(JOptionPane.showInputDialog("Enter your average estimated power: "));
-                    int estimatedAvgHeartRate = Integer.parseInt(JOptionPane.showInputDialog("Enter your average estimated heart rate: "));
-                    int estimatedAvgCadence = Integer.parseInt(JOptionPane.showInputDialog("Enter your average estimated cadence: "));
-                    String intervalZones = JOptionPane.showInputDialog("Enter the specific training zones you are going to work in:"));
-                    String intervalWorkout = JOptionPane.showInputDialog("Enter workout intervals: ");
-                    String heartRateIntervals = JOptionPane.showInputDialog("Would you like to assign a specific heart rate to your intervals: ");
-                    String cadenceIntervalWorkout = JOptionPane.showInputDialog("Would you like to assign a specific cadence to your intervals: ");
-
-                    outputTextArea.setText("Your training plan is: \n");
-                    outputTextArea.append(estimatedAvgPower + "\n");
-                    outputTextArea.append(estimatedAvgHeartRate + "\n");
-                    outputTextArea.append(estimatedAvgCadence + "\n");
-                    outputTextArea.append(intervalZones + "\n");
-                    outputTextArea.append(intervalWorkout + "\n");
-                    outputTextArea.append(heartRateIntervals + "\n");
-                    outputTextArea.append(cadenceIntervalWorkout + "\n");
-
-                    currentActionIndex++;
-                    processNextAction();
-
-    
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Please enter valid positive numbers.", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                createTrainingPlan(); // Prompt again for valid data
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Training plan creation is only available for cycling at this time.", "Info",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
+        CreateTrainingPlanDialog dialog = new CreateTrainingPlanDialog(this);
+        dialog.setVisible(true);
     }
-    
 
     private class SaveDataListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
@@ -306,7 +180,6 @@ public class GUI extends JFrame {
         String nextAction = options[currentActionIndex++];
         JOptionPane.showMessageDialog(this, "Processing next action: " + nextAction, "Info",
                 JOptionPane.INFORMATION_MESSAGE);
-        // Additional logic for processing the next action
     }
 
     public static void main(String[] args) {
@@ -314,5 +187,208 @@ public class GUI extends JFrame {
             GUI gui = new GUI();
             gui.setVisible(true);
         });
+    }
+}
+
+class CalculateTSSDialog extends JDialog {
+    private JTextField durationField, normalizedPowerField, intensityFactorField, functionalThresholdPowerField;
+    private JButton calculateButton;
+    private JTextArea outputTextArea;
+
+    public CalculateTSSDialog(JFrame parent) {
+        super(parent, "Calculate TSS", true);
+        setSize(400, 300);
+        setLocationRelativeTo(parent);
+        setLayout(new BorderLayout());
+
+        JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        durationField = new JTextField();
+        normalizedPowerField = new JTextField();
+        intensityFactorField = new JTextField();
+        functionalThresholdPowerField = new JTextField();
+
+        inputPanel.add(new JLabel("Duration (minutes):"));
+        inputPanel.add(durationField);
+        inputPanel.add(new JLabel("Normalized Power:"));
+        inputPanel.add(normalizedPowerField);
+        inputPanel.add(new JLabel("Intensity Factor:"));
+        inputPanel.add(intensityFactorField);
+        inputPanel.add(new JLabel("Functional Threshold Power:"));
+        inputPanel.add(functionalThresholdPowerField);
+
+        calculateButton = new JButton("Calculate");
+        calculateButton.addActionListener(e -> calculateTSS());
+
+        outputTextArea = new JTextArea();
+        outputTextArea.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(outputTextArea);
+
+        add(inputPanel, BorderLayout.NORTH);
+        add(calculateButton, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.SOUTH);
+    }
+
+    private void calculateTSS() {
+        try {
+            int duration = Integer.parseInt(durationField.getText());
+            int normalizedPower = Integer.parseInt(normalizedPowerField.getText());
+            float intensityFactor = Float.parseFloat(intensityFactorField.getText());
+            int functionalThresholdPower = Integer.parseInt(functionalThresholdPowerField.getText());
+
+            if (duration <= 0 || normalizedPower <= 0 || intensityFactor <= 0 || functionalThresholdPower <= 0)
+                throw new NumberFormatException();
+
+            int tss = (int) (((duration * normalizedPower * intensityFactor) / (functionalThresholdPower * 3600))
+                    * 100);
+            outputTextArea.setText("Your training stress score is: " + tss);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter valid positive numbers.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}
+
+class CalculateLTHRDialog extends JDialog {
+    private JTextField heartRateField;
+    private JButton calculateButton;
+    private JTextArea outputTextArea;
+
+    public CalculateLTHRDialog(JFrame parent) {
+        super(parent, "Calculate LTHR", true);
+        setSize(400, 300);
+        setLocationRelativeTo(parent);
+        setLayout(new BorderLayout());
+
+        JPanel inputPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        heartRateField = new JTextField();
+
+        inputPanel.add(new JLabel("Heart Rate:"));
+        inputPanel.add(heartRateField);
+
+        calculateButton = new JButton("Calculate");
+        calculateButton.addActionListener(e -> calculateLTHR());
+
+        outputTextArea = new JTextArea();
+        outputTextArea.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(outputTextArea);
+
+        add(inputPanel, BorderLayout.NORTH);
+        add(calculateButton, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.SOUTH);
+    }
+
+    private void calculateLTHR() {
+        try {
+            int heartRate = Integer.parseInt(heartRateField.getText());
+
+            if (heartRate <= 0)
+                throw new NumberFormatException();
+
+            int LTHR = (int) (heartRate * 0.95);
+
+            outputTextArea.setText("Your LTHR is " + LTHR + "\n");
+            outputTextArea.append("Zone 1: " + (int) (LTHR * 0) + " - " + (int) (LTHR * 0.81) + "\n");
+            outputTextArea.append("Zone 2: " + (int) (LTHR * 0.81) + " - " + (int) (heartRate * 0.89) + "\n");
+            outputTextArea.append("Zone 3: " + (int) (LTHR * 0.90) + " - " + (int) (LTHR * 0.93) + "\n");
+            outputTextArea.append("Zone 4: " + (int) (LTHR * 0.94) + " - " + (int) (LTHR * 0.99) + "\n");
+            outputTextArea.append("Zone 5a: " + (int) (LTHR * 1.00) + " - " + (int) (LTHR * 1.02) + "\n");
+            outputTextArea.append("Zone 5b: " + (int) (LTHR * 1.03) + " - " + (int) (LTHR * 1.06) + "\n");
+            outputTextArea.append("Zone 5c: " + (int) (LTHR * 1.06) + " <" + "\n");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid positive number for Heart Rate.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}
+
+class CreateTrainingPlanDialog extends JDialog {
+    private JTextField durationField, avgPowerField, avgHeartRateField, avgCadenceField, intervalZonesField,
+            intervalWorkoutField, heartRateIntervalsField, cadenceIntervalWorkoutField;
+    private JButton createButton;
+    private JTextArea outputTextArea;
+
+    public CreateTrainingPlanDialog(JFrame parent) {
+        super(parent, "Create Training Plan", true);
+        setSize(800, 600);
+        setLocationRelativeTo(parent);
+        setLayout(new BorderLayout());
+
+        JPanel inputPanel = new JPanel(new GridLayout(8, 2, 10, 10));
+        inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        durationField = new JTextField();
+        avgPowerField = new JTextField();
+        avgHeartRateField = new JTextField();
+        avgCadenceField = new JTextField();
+        intervalZonesField = new JTextField();
+        intervalWorkoutField = new JTextField();
+        heartRateIntervalsField = new JTextField();
+        cadenceIntervalWorkoutField = new JTextField();
+
+        inputPanel.add(new JLabel("Duration (minutes):"));
+        inputPanel.add(durationField);
+        inputPanel.add(new JLabel("Average Estimated Power:"));
+        inputPanel.add(avgPowerField);
+        inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
+        inputPanel.add(avgHeartRateField);
+        inputPanel.add(new JLabel("Average Estimated Cadence:"));
+        inputPanel.add(avgCadenceField);
+        inputPanel.add(new JLabel("Interval Zones:"));
+        inputPanel.add(intervalZonesField);
+        inputPanel.add(new JLabel("Interval Workout:"));
+        inputPanel.add(intervalWorkoutField);
+        inputPanel.add(new JLabel("Heart Rate Intervals:"));
+        inputPanel.add(heartRateIntervalsField);
+        inputPanel.add(new JLabel("Cadence Interval Workout:"));
+        inputPanel.add(cadenceIntervalWorkoutField);
+
+        createButton = new JButton("Create");
+        createButton.addActionListener(e -> createTrainingPlan());
+
+        outputTextArea = new JTextArea();
+        outputTextArea.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(outputTextArea);
+
+        add(inputPanel, BorderLayout.NORTH);
+        add(createButton, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.SOUTH);
+    }
+
+    private void createTrainingPlan() {
+        try {
+            int duration = Integer.parseInt(durationField.getText());
+            int avgPower = Integer.parseInt(avgPowerField.getText());
+            int avgHeartRate = Integer.parseInt(avgHeartRateField.getText());
+            int avgCadence = Integer.parseInt(avgCadenceField.getText());
+
+            if (duration <= 0 || avgPower <= 0 || avgHeartRate <= 0 || avgCadence <= 0)
+                throw new NumberFormatException();
+
+            String intervalZones = intervalZonesField.getText();
+            String intervalWorkout = intervalWorkoutField.getText();
+            String heartRateIntervals = heartRateIntervalsField.getText();
+            String cadenceIntervalWorkout = cadenceIntervalWorkoutField.getText();
+
+            outputTextArea.setText("Your training plan is: \n");
+            outputTextArea.append("Duration: " + duration + "\n");
+            outputTextArea.append("Average Estimated Power: " + avgPower + "\n");
+            outputTextArea.append("Average Estimated Heart Rate: " + avgHeartRate + "\n");
+            outputTextArea.append("Average Estimated Cadence: " + avgCadence + "\n");
+            outputTextArea.append("Interval Zones: " + intervalZones + "\n");
+            outputTextArea.append("Interval Workout: " + intervalWorkout + "\n");
+            outputTextArea.append("Heart Rate Intervals: " + heartRateIntervals + "\n");
+            outputTextArea.append("Cadence Interval Workout: " + cadenceIntervalWorkout + "\n");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter valid positive numbers.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
