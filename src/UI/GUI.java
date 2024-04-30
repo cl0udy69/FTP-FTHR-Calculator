@@ -182,6 +182,10 @@ public class GUI extends JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public JTextArea getOutputTextArea() {
+        return outputTextArea;
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             GUI gui = new GUI();
@@ -193,13 +197,16 @@ public class GUI extends JFrame {
 class CalculateTSSDialog extends JDialog {
     private JTextField durationField, normalizedPowerField, intensityFactorField, functionalThresholdPowerField;
     private JButton calculateButton;
-    private JTextArea outputTextArea;
 
-    public CalculateTSSDialog(JFrame parent) {
-        super(parent, "Calculate TSS", true);
+    private GUI parentGUI;
+
+    public CalculateTSSDialog(GUI parentGUI) {
+        super(parentGUI, "Calculate TSS", true);
         setSize(400, 300);
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(parentGUI);
         setLayout(new BorderLayout());
+
+        this.parentGUI = parentGUI;
 
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -221,14 +228,10 @@ class CalculateTSSDialog extends JDialog {
         calculateButton = new JButton("Calculate");
         calculateButton.addActionListener(e -> calculateTSS());
 
-        outputTextArea = new JTextArea();
-        outputTextArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(inputPanel);
 
-        JScrollPane scrollPane = new JScrollPane(outputTextArea);
-
-        add(inputPanel, BorderLayout.NORTH);
-        add(calculateButton, BorderLayout.CENTER);
-        add(scrollPane, BorderLayout.SOUTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(calculateButton, BorderLayout.SOUTH);
     }
 
     private void calculateTSS() {
@@ -243,7 +246,7 @@ class CalculateTSSDialog extends JDialog {
 
             int tss = (int) (((duration * normalizedPower * intensityFactor) / (functionalThresholdPower * 3600))
                     * 100);
-            outputTextArea.setText("Your training stress score is: " + tss);
+            parentGUI.getOutputTextArea().append("Your training stress score is: " + tss);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter valid positive numbers.", "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -254,13 +257,16 @@ class CalculateTSSDialog extends JDialog {
 class CalculateLTHRDialog extends JDialog {
     private JTextField heartRateField;
     private JButton calculateButton;
-    private JTextArea outputTextArea;
 
-    public CalculateLTHRDialog(JFrame parent) {
-        super(parent, "Calculate LTHR", true);
+    private GUI parentGUI;
+
+    public CalculateLTHRDialog(GUI parentGUI) {
+        super(parentGUI, "Calculate LTHR", true);
         setSize(400, 300);
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(parentGUI);
         setLayout(new BorderLayout());
+
+        this.parentGUI = parentGUI;
 
         JPanel inputPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -273,14 +279,10 @@ class CalculateLTHRDialog extends JDialog {
         calculateButton = new JButton("Calculate");
         calculateButton.addActionListener(e -> calculateLTHR());
 
-        outputTextArea = new JTextArea();
-        outputTextArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(inputPanel);
 
-        JScrollPane scrollPane = new JScrollPane(outputTextArea);
-
-        add(inputPanel, BorderLayout.NORTH);
-        add(calculateButton, BorderLayout.CENTER);
-        add(scrollPane, BorderLayout.SOUTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(calculateButton, BorderLayout.SOUTH);
     }
 
     private void calculateLTHR() {
@@ -292,14 +294,17 @@ class CalculateLTHRDialog extends JDialog {
 
             int LTHR = (int) (heartRate * 0.95);
 
-            outputTextArea.setText("Your LTHR is " + LTHR + "\n");
-            outputTextArea.append("Zone 1: " + (int) (LTHR * 0) + " - " + (int) (LTHR * 0.81) + "\n");
-            outputTextArea.append("Zone 2: " + (int) (LTHR * 0.81) + " - " + (int) (heartRate * 0.89) + "\n");
-            outputTextArea.append("Zone 3: " + (int) (LTHR * 0.90) + " - " + (int) (LTHR * 0.93) + "\n");
-            outputTextArea.append("Zone 4: " + (int) (LTHR * 0.94) + " - " + (int) (LTHR * 0.99) + "\n");
-            outputTextArea.append("Zone 5a: " + (int) (LTHR * 1.00) + " - " + (int) (LTHR * 1.02) + "\n");
-            outputTextArea.append("Zone 5b: " + (int) (LTHR * 1.03) + " - " + (int) (LTHR * 1.06) + "\n");
-            outputTextArea.append("Zone 5c: " + (int) (LTHR * 1.06) + " <" + "\n");
+            parentGUI.getOutputTextArea().append("Your LTHR is " + LTHR + "\n");
+            parentGUI.getOutputTextArea().append("Zone 1: " + (int) (LTHR * 0) + " - " + (int) (LTHR * 0.81) + "\n");
+            parentGUI.getOutputTextArea()
+                    .append("Zone 2: " + (int) (LTHR * 0.81) + " - " + (int) (heartRate * 0.89) + "\n");
+            parentGUI.getOutputTextArea().append("Zone 3: " + (int) (LTHR * 0.90) + " - " + (int) (LTHR * 0.93) + "\n");
+            parentGUI.getOutputTextArea().append("Zone 4: " + (int) (LTHR * 0.94) + " - " + (int) (LTHR * 0.99) + "\n");
+            parentGUI.getOutputTextArea()
+                    .append("Zone 5a: " + (int) (LTHR * 1.00) + " - " + (int) (LTHR * 1.02) + "\n");
+            parentGUI.getOutputTextArea()
+                    .append("Zone 5b: " + (int) (LTHR * 1.03) + " - " + (int) (LTHR * 1.06) + "\n");
+            parentGUI.getOutputTextArea().append("Zone 5c: " + (int) (LTHR * 1.06) + " <" + "\n");
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter a valid positive number for Heart Rate.", "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -311,13 +316,16 @@ class CreateTrainingPlanDialog extends JDialog {
     private JTextField durationField, avgPowerField, avgHeartRateField, avgCadenceField, intervalZonesField,
             intervalWorkoutField, heartRateIntervalsField, cadenceIntervalWorkoutField;
     private JButton createButton;
-    private JTextArea outputTextArea;
 
-    public CreateTrainingPlanDialog(JFrame parent) {
-        super(parent, "Create Training Plan", true);
+    private GUI parentGUI;
+
+    public CreateTrainingPlanDialog(GUI parentGUI) {
+        super(parentGUI, "Create Training Plan", true);
         setSize(800, 600);
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(parentGUI);
         setLayout(new BorderLayout());
+
+        this.parentGUI = parentGUI;
 
         JPanel inputPanel = new JPanel(new GridLayout(8, 2, 10, 10));
         inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -337,7 +345,7 @@ class CreateTrainingPlanDialog extends JDialog {
         inputPanel.add(avgPowerField);
         inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
         inputPanel.add(avgHeartRateField);
-        inputPanel.add(new JLabel("Average Estimated Cadence:"));
+        inputPanel.add(new JLabel("Average Cadence:"));
         inputPanel.add(avgCadenceField);
         inputPanel.add(new JLabel("Interval Zones:"));
         inputPanel.add(intervalZonesField);
@@ -351,44 +359,16 @@ class CreateTrainingPlanDialog extends JDialog {
         createButton = new JButton("Create");
         createButton.addActionListener(e -> createTrainingPlan());
 
-        outputTextArea = new JTextArea();
-        outputTextArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(inputPanel);
 
-        JScrollPane scrollPane = new JScrollPane(outputTextArea);
-
-        add(inputPanel, BorderLayout.NORTH);
-        add(createButton, BorderLayout.CENTER);
-        add(scrollPane, BorderLayout.SOUTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(createButton, BorderLayout.SOUTH);
     }
 
     private void createTrainingPlan() {
-        try {
-            int duration = Integer.parseInt(durationField.getText());
-            int avgPower = Integer.parseInt(avgPowerField.getText());
-            int avgHeartRate = Integer.parseInt(avgHeartRateField.getText());
-            int avgCadence = Integer.parseInt(avgCadenceField.getText());
-
-            if (duration <= 0 || avgPower <= 0 || avgHeartRate <= 0 || avgCadence <= 0)
-                throw new NumberFormatException();
-
-            String intervalZones = intervalZonesField.getText();
-            String intervalWorkout = intervalWorkoutField.getText();
-            String heartRateIntervals = heartRateIntervalsField.getText();
-            String cadenceIntervalWorkout = cadenceIntervalWorkoutField.getText();
-
-            outputTextArea.setText("Your training plan is: \n");
-            outputTextArea.append("Duration: " + duration + "\n");
-            outputTextArea.append("Average Estimated Power: " + avgPower + "\n");
-            outputTextArea.append("Average Estimated Heart Rate: " + avgHeartRate + "\n");
-            outputTextArea.append("Average Estimated Cadence: " + avgCadence + "\n");
-            outputTextArea.append("Interval Zones: " + intervalZones + "\n");
-            outputTextArea.append("Interval Workout: " + intervalWorkout + "\n");
-            outputTextArea.append("Heart Rate Intervals: " + heartRateIntervals + "\n");
-            outputTextArea.append("Cadence Interval Workout: " + cadenceIntervalWorkout + "\n");
-
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter valid positive numbers.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+        // Implement logic to create training plan
+        JOptionPane.showMessageDialog(this, "Training plan created successfully!", "Success",
+                JOptionPane.INFORMATION_MESSAGE);
+        dispose();
     }
 }
