@@ -29,15 +29,21 @@ public class GUI extends JFrame {
 
         // Add icons to buttons
         calculateFTPButton = new JButton("Calculate FTP");
+        calculateFTPButton.setPreferredSize(new Dimension(150, 50));
         calculateFTPButton.setIcon(new ImageIcon("ftp_icon.png"));
         calculateTSSButton = new JButton("Calculate TSS");
+        calculateTSSButton.setPreferredSize(new Dimension(150, 50));
         calculateTSSButton.setIcon(new ImageIcon("tss_icon.png"));
         calculateLTHRButton = new JButton("Calculate LTHR");
+        calculateLTHRButton.setPreferredSize(new Dimension(150, 50));
         calculateLTHRButton.setIcon(new ImageIcon("lthr_icon.png"));
         createTrainingPlanButton = new JButton("Create Training Plan");
+        createTrainingPlanButton.setPreferredSize(new Dimension(150, 50));
         createTrainingPlanButton.setIcon(new ImageIcon("training_plan_icon.png"));
         saveDataButton = new JButton("Save Data");
+        saveDataButton.setPreferredSize(new Dimension(150, 50));
         loadDataButton = new JButton("Load Data");
+        loadDataButton.setPreferredSize(new Dimension(150, 50));
 
         buttonPanel.add(calculateFTPButton);
         buttonPanel.add(calculateTSSButton);
@@ -49,7 +55,7 @@ public class GUI extends JFrame {
         // Text area for output
         outputTextArea = new JTextArea();
         outputTextArea.setEditable(false);
-        outputTextArea.setFont(new Font("Montserrat", Font.PLAIN, 17));
+        outputTextArea.setFont(new Font("Montserrat", Font.PLAIN, 16));
         JScrollPane scrollPane = new JScrollPane(outputTextArea);
 
         // Add components to the frame
