@@ -114,6 +114,7 @@ public class GUI extends JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Please enter a valid positive number for Power.", "Error",
                     JOptionPane.ERROR_MESSAGE);
+            calculateFTP(); // Prompt user again for valid input
         }
     }
 
@@ -253,6 +254,7 @@ class CalculateTSSDialog extends JDialog {
             int tss = (int) (((duration * normalizedPower * intensityFactor) / (functionalThresholdPower * 3600))
                     * 100);
             parentGUI.getOutputTextArea().append("Your training stress score is: " + tss);
+            dispose(); // Close the dialog after calculation
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter valid positive numbers.", "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -311,6 +313,7 @@ class CalculateLTHRDialog extends JDialog {
             parentGUI.getOutputTextArea()
                     .append("Zone 5b: " + (int) (LTHR * 1.03) + " - " + (int) (LTHR * 1.06) + "\n");
             parentGUI.getOutputTextArea().append("Zone 5c: " + (int) (LTHR * 1.06) + " <" + "\n");
+            dispose(); // Close the dialog after calculation
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter a valid positive number for Heart Rate.", "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -347,6 +350,8 @@ class CreateTrainingPlanDialog extends JDialog {
 
         inputPanel.add(new JLabel("Duration (minutes):"));
         inputPanel.add(durationField);
+        inputPanel.add(new JLabel("Distance"));
+        // inputPanel.add(distanceField);
         inputPanel.add(new JLabel("Average Estimated Power:"));
         inputPanel.add(avgPowerField);
         inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
