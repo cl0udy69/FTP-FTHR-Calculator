@@ -339,17 +339,15 @@ class CreateTrainingPlanDialog extends JDialog {
         JPanel inputPanel = new JPanel(new GridLayout(8, 2, 10, 10));
         inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        String[] options = {"Cycling", "Running"};
-        int choice = JOptionPane.showOptionDialog(null, "What is the key object of the training ride?",
-                "Choose Objective",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        // String[] options = {"Cycling", "Running"};
+        // int choice = JOptionPane.showOptionDialog(null, "What is the key object of the training ride?",
+        //         "Choose Objective",
+        //         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
-        if (choice == JOptionPane.CLOSED_OPTION)
-            return; // User closed the dialog
+        // if (choice == JOptionPane.CLOSED_OPTION)
+        //     return; // User closed the dialog
 
-        
-        
-            String objective = options[choice];
+        //     String objective = options[choice];
 
         durationField = new JTextField();
         avgPowerField = new JTextField();
