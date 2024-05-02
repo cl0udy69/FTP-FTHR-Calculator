@@ -350,6 +350,7 @@ class CreateTrainingPlanDialog extends JDialog {
         //     String objective = options[choice];
 
         durationField = new JTextField();
+        distanceField = new JTextField();
         avgPowerField = new JTextField();
         avgHeartRateField = new JTextField();
         avgCadenceField = new JTextField();
@@ -360,6 +361,8 @@ class CreateTrainingPlanDialog extends JDialog {
 
         inputPanel.add(new JLabel("Duration (minutes):"));
         inputPanel.add(durationField);
+        inputPanel.add(new JLabel("Distance (if desired; enter units):"));
+        inputPanel.add(distanceField);
         inputPanel.add(new JLabel("Average Estimated Power:"));
         inputPanel.add(avgPowerField);
         inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
@@ -395,10 +398,12 @@ class CreateTrainingPlanDialog extends JDialog {
                 String intervalWorkout = intervalWorkoutField.getText();
                 String heartRateIntervals = heartRateIntervalsField.getText();
                 String cadenceIntervalWorkout = cadenceIntervalWorkoutField.getText();
+                String distance = distanceField.getText();
     
                 StringBuilder planDetails = new StringBuilder();
                 planDetails.append("Training Plan Details:\n");
                 planDetails.append("Duration (minutes): ").append(duration).append("\n");
+                planDetails.append("Distance (if desired): ").append(distance).append("\n");
                 planDetails.append("Average Estimated Power: ").append(avgPower).append("\n");
                 planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate).append("\n");
                 planDetails.append("Average Cadence: ").append(avgCadence).append("\n");
