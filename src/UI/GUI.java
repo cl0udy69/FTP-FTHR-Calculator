@@ -322,15 +322,15 @@ class CalculateLTHRDialog extends JDialog {
 }
 
 class CreateTrainingPlanDialog extends JDialog {
-    private JTextField durationField, avgPowerField, avgHeartRateField, avgCadenceField, intervalZonesField,
-            intervalWorkoutField, heartRateIntervalsField, cadenceIntervalWorkoutField;
+    private JTextField durationField, avgPowerField, avgHeartRateField, avgCadenceField,
+            intervalZonesField, intervalWorkoutField, heartRateIntervalsField, cadenceIntervalWorkoutField;
     private JButton createButton;
 
     private GUI parentGUI;
 
     public CreateTrainingPlanDialog(GUI parentGUI) {
         super(parentGUI, "Create Training Plan", true);
-        setSize(800, 600);
+        setSize(400, 400);
         setLocationRelativeTo(parentGUI);
         setLayout(new BorderLayout());
 
@@ -350,8 +350,6 @@ class CreateTrainingPlanDialog extends JDialog {
 
         inputPanel.add(new JLabel("Duration (minutes):"));
         inputPanel.add(durationField);
-        inputPanel.add(new JLabel("Distance"));
-        // inputPanel.add(distanceField);
         inputPanel.add(new JLabel("Average Estimated Power:"));
         inputPanel.add(avgPowerField);
         inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
@@ -377,9 +375,35 @@ class CreateTrainingPlanDialog extends JDialog {
     }
 
     private void createTrainingPlan() {
-        // Implement logic to create training plan
-        JOptionPane.showMessageDialog(this, "Training plan created successfully!", "Success",
-                JOptionPane.INFORMATION_MESSAGE);
-        dispose();
+        try {
+            int duration = Integer.parseInt(durationField.getText());
+            int avgPower = Integer.parseInt(avgPowerField.getText());
+            int avgHeartRate = Integer.parseInt(avgHeartRateField.getText());
+            int avgCadence = Integer.parseInt(avgCadenceField.getText());
+
+            String intervalZones = intervalZonesField.getText();
+            String intervalWorkout = intervalWorkoutField.getText();
+            String heartRateIntervals = heartRateIntervalsField.getText();
+            String cadenceIntervalWorkout = cadenceIntervalWorkoutField.getText();
+
+            StringBuilder planDetails = new StringBuilder();
+            planDetails.append("Training Plan Details:\n");
+            planDetails.append("Duration (minutes): ").append(duration).append("\n");
+            planDetails.append("Average Estimated Power: ").append(avgPower).append("\n");
+            planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate).append("\n");
+            planDetails.append("Average Cadence: ").append(avgCadence).append("\n");
+            planDetails.append("Interval Zones: ").append(intervalZones).append("\n");
+            planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
+            planDetails.append("Heart Rate Intervals: ").append(heartRateIntervals).append("\n");
+            planDetails.append("Cadence Interval Workout: ").append(cadenceIntervalWorkout).append("\n");
+
+            parentGUI.getOutputTextArea().append(planDetails.toString());
+            JOptionPane.showMessageDialog(this, "Training plan created successfully!", "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numbers for all fields.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
