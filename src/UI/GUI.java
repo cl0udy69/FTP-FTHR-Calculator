@@ -330,19 +330,19 @@ class CreateTrainingPlanDialog extends JDialog {
 
     public CreateTrainingPlanDialog(GUI parentGUI) {
         super(parentGUI, "Create Training Plan", true);
-        setSize(400, 400);
+        setSize(450, 500);
         setLocationRelativeTo(parentGUI);
         setLayout(new BorderLayout());
 
         this.parentGUI = parentGUI;
 
-        JPanel inputPanel = new JPanel(new GridLayout(8, 2, 10, 10));
-        inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
+        inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
 
         String[] options = { "Cycling", "Running" };
-        int choice = JOptionPane.showOptionDialog(null, "What is the key object of the training ride?",
-                "Choose Objective",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+         int choice = JOptionPane.showOptionDialog(null, "What is the key object of the training ride?",
+                 "Choose Objective",
+                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
         if (choice == JOptionPane.CLOSED_OPTION) {
             dispose();
@@ -415,9 +415,9 @@ class CreateTrainingPlanDialog extends JDialog {
             planDetails.append("Training Plan Details:\n");
             planDetails.append("Duration (minutes): ").append(duration).append("\n");
             planDetails.append("Distance (if desired): ").append(distance).append("\n");
-            planDetails.append("Average Estimated Power: ").append(avgPower).append("\n");
-            planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate).append("\n");
-            planDetails.append("Average Cadence: ").append(avgCadence).append("\n");
+            planDetails.append("Average Estimated Power: ").append(avgPower + "W").append("\n");
+            planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate + "BPM").append("\n");
+            planDetails.append("Average Cadence: ").append(avgCadence + "RPM").append("\n");
             planDetails.append("Interval Zones: ").append(intervalZones).append("\n");
             planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
             planDetails.append("Heart Rate Intervals: ").append(heartRateIntervals).append("\n");
@@ -431,5 +431,10 @@ class CreateTrainingPlanDialog extends JDialog {
             JOptionPane.showMessageDialog(this, "Please enter valid numbers for all fields.", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+    private void initializeRunningInputPanel(JPanel inputPanel) {
+        durationField = new JTextField();
+        distanceField = new JTextField();
+        
     }
 }
