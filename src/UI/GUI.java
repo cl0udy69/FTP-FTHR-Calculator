@@ -323,8 +323,10 @@ class CalculateLTHRDialog extends JDialog {
 
 class CreateTrainingPlanDialog extends JDialog {
     private JTextField durationField, distanceField, avgPowerField, avgHeartRateField, avgCadenceField,
-            intervalZonesField, intervalWorkoutField, heartRateIntervalsField, cadenceIntervalWorkoutField;
+            intervalZonesField, intervalWorkoutField, heartRateIntervalsField, cadenceIntervalWorkoutField,
+            avgPaceField;
     private JButton createButton;
+    private JComboBox<String> objectiveComboBox; // New JComboBox for key objective selection
 
     private GUI parentGUI;
 
@@ -340,9 +342,9 @@ class CreateTrainingPlanDialog extends JDialog {
         inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
 
         String[] options = { "Cycling", "Running" };
-         int choice = JOptionPane.showOptionDialog(null, "What is the key object of the training ride?",
-                 "Choose Objective",
-                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        int choice = JOptionPane.showOptionDialog(null, "What is the key object of the training ride?",
+                "Choose Objective",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
         if (choice == JOptionPane.CLOSED_OPTION) {
             dispose();
@@ -351,15 +353,12 @@ class CreateTrainingPlanDialog extends JDialog {
 
         if (options[choice].equals("Cycling")) {
             initializeCyclingInputPanel(inputPanel);
-        } else {
-            JOptionPane.showMessageDialog(this, "Feature not yet available for Running.", "Info",
-                    JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-            return;
+        } else if (options[choice].equals("Running")) {
+            initializeRunningInputPanel(inputPanel);
         }
 
         createButton = new JButton("Create");
-        createButton.addActionListener(e -> createTrainingPlan());
+        createButton.addActionListener(e -> createTrainingRide());
 
         JScrollPane scrollPane = new JScrollPane(inputPanel);
 
@@ -368,34 +367,54 @@ class CreateTrainingPlanDialog extends JDialog {
     }
 
     private void initializeCyclingInputPanel(JPanel inputPanel) {
+        inputPanel.removeAll(); // Clear existing components
+        inputPanel.setLayout(new GridLayout(14, 2, 10, 10));
+
+        // Add cycling-specific input fields
+        JLabel durationLabel = new JLabel("Duration (minutes):");
         durationField = new JTextField();
+        JLabel distanceLabel = new JLabel("Distance (if desired; enter units):");
         distanceField = new JTextField();
+        JLabel avgPowerLabel = new JLabel("Average Estimated Power:");
         avgPowerField = new JTextField();
+        JLabel avgHeartRateLabel = new JLabel("Average Estimated Heart Rate:");
         avgHeartRateField = new JTextField();
+        JLabel avgCadenceLabel = new JLabel("Average Cadence:");
         avgCadenceField = new JTextField();
+        JLabel intervalZonesLabel = new JLabel("Interval Zones:");
         intervalZonesField = new JTextField();
+        JLabel intervalWorkoutLabel = new JLabel("Interval Workout:");
         intervalWorkoutField = new JTextField();
+        JLabel heartRateIntervalsLabel = new JLabel("Heart Rate Intervals:");
         heartRateIntervalsField = new JTextField();
+        JLabel cadenceIntervalWorkoutLabel = new JLabel("Cadence Interval Workout:");
         cadenceIntervalWorkoutField = new JTextField();
 
-        inputPanel.add(new JLabel("Duration (minutes):"));
+        // Add JComboBox for key objective selection
+        JLabel objectiveLabel = new JLabel("Key Objective:");
+        String[] objectives = { "Base", "Tempo", "Other" };
+        objectiveComboBox = new JComboBox<>(objectives);
+
+        inputPanel.add(durationLabel);
         inputPanel.add(durationField);
-        inputPanel.add(new JLabel("Distance (if desired; enter units):"));
+        inputPanel.add(distanceLabel);
         inputPanel.add(distanceField);
-        inputPanel.add(new JLabel("Average Estimated Power:"));
+        inputPanel.add(avgPowerLabel);
         inputPanel.add(avgPowerField);
-        inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
+        inputPanel.add(avgHeartRateLabel);
         inputPanel.add(avgHeartRateField);
-        inputPanel.add(new JLabel("Average Cadence:"));
+        inputPanel.add(avgCadenceLabel);
         inputPanel.add(avgCadenceField);
-        inputPanel.add(new JLabel("Interval Zones:"));
+        inputPanel.add(intervalZonesLabel);
         inputPanel.add(intervalZonesField);
-        inputPanel.add(new JLabel("Interval Workout:"));
+        inputPanel.add(intervalWorkoutLabel);
         inputPanel.add(intervalWorkoutField);
-        inputPanel.add(new JLabel("Heart Rate Intervals:"));
+        inputPanel.add(heartRateIntervalsLabel);
         inputPanel.add(heartRateIntervalsField);
-        inputPanel.add(new JLabel("Cadence Interval Workout:"));
+        inputPanel.add(cadenceIntervalWorkoutLabel);
         inputPanel.add(cadenceIntervalWorkoutField);
+        inputPanel.add(objectiveLabel);
+        inputPanel.add(objectiveComboBox); // Add JComboBox to inputPanel
     }
 
     private void createTrainingRide() {
@@ -432,7 +451,7 @@ class CreateTrainingPlanDialog extends JDialog {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void initializeRunningInputPanel(JPanel inputPanel) {
         durationField = new JTextField();
         distanceField = new JTextField();
@@ -458,11 +477,10 @@ class CreateTrainingPlanDialog extends JDialog {
         inputPanel.add(heartRateIntervalsField);
     }
 
-    private void createTrainingRun () {
+    private void createTrainingRun() {
         try {
             int duration = Integer.parseInt(durationField.getText());
             int avgHeartRate = Integer.parseInt(avgHeartRateField.getText());
-            
 
             String intervalZones = intervalZonesField.getText();
             String intervalWorkout = intervalWorkoutField.getText();
