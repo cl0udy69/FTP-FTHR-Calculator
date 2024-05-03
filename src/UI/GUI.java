@@ -379,16 +379,20 @@ class CreateTrainingPlanDialog extends JDialog {
         avgPowerField = new JTextField();
         JLabel avgHeartRateLabel = new JLabel("Average Estimated Heart Rate:");
         avgHeartRateField = new JTextField();
-        JLabel avgCadenceLabel = new JLabel("Average Cadence:");
-        avgCadenceField = new JTextField();
-        JLabel intervalZonesLabel = new JLabel("Interval Zones:");
-        intervalZonesField = new JTextField();
-        JLabel intervalWorkoutLabel = new JLabel("Interval Workout:");
-        intervalWorkoutField = new JTextField();
-        JLabel heartRateIntervalsLabel = new JLabel("Heart Rate Intervals:");
-        heartRateIntervalsField = new JTextField();
+        // JLabel avgCadenceLabel = new JLabel("Average Cadence:");
+        // avgCadenceField = new JTextField();
+        // JLabel intervalZonesLabel = new JLabel("Interval Zones:");
+        // intervalZonesField = new JTextField();
+        // JLabel intervalWorkoutLabel = new JLabel("Interval Workout:");
+        // intervalWorkoutField = new JTextField();
+        // JLabel heartRateIntervalsLabel = new JLabel("Heart Rate Intervals:");
+        // heartRateIntervalsField = new JTextField();
         JLabel cadenceIntervalWorkoutLabel = new JLabel("Cadence Interval Workout:");
         cadenceIntervalWorkoutField = new JTextField();
+
+        // add expected weather
+        // update interval system
+        // add workout notes
 
         // Add JComboBox for key objective selection
         JLabel objectiveLabel = new JLabel("Key Objective:");
@@ -403,16 +407,17 @@ class CreateTrainingPlanDialog extends JDialog {
         inputPanel.add(avgPowerField);
         inputPanel.add(avgHeartRateLabel);
         inputPanel.add(avgHeartRateField);
-        inputPanel.add(avgCadenceLabel);
+        // inputPanel.add(avgCadenceLabel);
         inputPanel.add(avgCadenceField);
-        inputPanel.add(intervalZonesLabel);
+        // inputPanel.add(intervalZonesLabel);
         inputPanel.add(intervalZonesField);
-        inputPanel.add(intervalWorkoutLabel);
+        // inputPanel.add(intervalWorkoutLabel);
         inputPanel.add(intervalWorkoutField);
-        inputPanel.add(heartRateIntervalsLabel);
+        // inputPanel.add(heartRateIntervalsLabel);
         inputPanel.add(heartRateIntervalsField);
         inputPanel.add(cadenceIntervalWorkoutLabel);
         inputPanel.add(cadenceIntervalWorkoutField);
+
         inputPanel.add(objectiveLabel);
         inputPanel.add(objectiveComboBox); // Add JComboBox to inputPanel
     }
