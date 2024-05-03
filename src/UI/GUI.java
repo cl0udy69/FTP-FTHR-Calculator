@@ -398,7 +398,7 @@ class CreateTrainingPlanDialog extends JDialog {
         inputPanel.add(cadenceIntervalWorkoutField);
     }
 
-    private void createTrainingPlan() {
+    private void createTrainingRide() {
         try {
             int duration = Integer.parseInt(durationField.getText());
             int avgPower = Integer.parseInt(avgPowerField.getText());
@@ -432,9 +432,61 @@ class CreateTrainingPlanDialog extends JDialog {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+    
     private void initializeRunningInputPanel(JPanel inputPanel) {
         durationField = new JTextField();
         distanceField = new JTextField();
-        
+        avgPaceField = new JTextField();
+        avgHeartRateField = new JTextField();
+        intervalZonesField = new JTextField();
+        intervalWorkoutField = new JTextField();
+        heartRateIntervalsField = new JTextField();
+
+        inputPanel.add(new JLabel("Duration (minutes):"));
+        inputPanel.add(durationField);
+        inputPanel.add(new JLabel("Distance (if desired; enter units):"));
+        inputPanel.add(distanceField);
+        inputPanel.add(new JLabel("Average Estimated Pace:"));
+        inputPanel.add(avgPaceField);
+        inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
+        inputPanel.add(avgHeartRateField);
+        inputPanel.add(new JLabel("Interval Zones:"));
+        inputPanel.add(intervalZonesField);
+        inputPanel.add(new JLabel("Interval Workout:"));
+        inputPanel.add(intervalWorkoutField);
+        inputPanel.add(new JLabel("Heart Rate Intervals:"));
+        inputPanel.add(heartRateIntervalsField);
+    }
+
+    private void createTrainingRun () {
+        try {
+            int duration = Integer.parseInt(durationField.getText());
+            int avgHeartRate = Integer.parseInt(avgHeartRateField.getText());
+            
+
+            String intervalZones = intervalZonesField.getText();
+            String intervalWorkout = intervalWorkoutField.getText();
+            String heartRateIntervals = heartRateIntervalsField.getText();
+            String distance = distanceField.getText();
+            String avgPace = avgPaceField.getText();
+
+            StringBuilder planDetails = new StringBuilder();
+            planDetails.append("Training Plan Details:\n");
+            planDetails.append("Duration (minutes): ").append(duration).append("\n");
+            planDetails.append("Distance (if desired): ").append(distance).append("\n");
+            planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate + "BPM").append("\n");
+            planDetails.append("Average Estimated Pace: ").append(avgPace).append("\n");
+            planDetails.append("Interval Zones: ").append(intervalZones).append("\n");
+            planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
+            planDetails.append("Heart Rate Intervals: ").append(heartRateIntervals).append("\n");
+
+            parentGUI.getOutputTextArea().append(planDetails.toString());
+            JOptionPane.showMessageDialog(this, "Training plan created successfully!", "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numbers for all fields.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
