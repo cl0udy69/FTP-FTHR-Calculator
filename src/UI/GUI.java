@@ -513,3 +513,94 @@ class CreateTrainingPlanDialog extends JDialog {
         }
     }
 }
+class IntervalWorkoutDialog extends JDialog {
+    private List<JTextField> durationFields;
+    private List<JTextField> descriptionFields;
+    private JButton addIntervalButton;
+    private JButton doneButton;
+
+    public IntervalWorkoutDialog(JFrame parentFrame) {
+        super(parentFrame, "Interval Workout Creator", true);
+        setSize(400, 300);
+        setLocationRelativeTo(parentFrame);
+        setLayout(new BorderLayout());
+
+        JPanel intervalPanel = new JPanel();
+        intervalPanel.setLayout(new BoxLayout(intervalPanel, BoxLayout.Y_AXIS));
+        intervalPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        durationFields = new ArrayList<>();
+        descriptionFields = new ArrayList<>();
+        addIntervalRow(intervalPanel);
+
+        JScrollPane scrollPane = new JScrollPane(intervalPanel);
+
+        add(scrollPane, BorderLayout.CENTER);
+
+        addIntervalButton = new JButton("Add Interval");
+        addIntervalButton.addActionListener(e -> addIntervalRow(intervalPanel));
+
+        doneButton = new JButton("Done");
+        doneButton.addActionListener(e -> dispose());
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(addIntervalButton);
+        buttonPanel.add(doneButton);
+
+        add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    private void addIntervalRow(JPanel intervalPanel) {
+        JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JTextField durationField = new JTextField(5);
+        JTextField descriptionField = new JTextField(15);
+        durationFields.add(durationField);
+        descriptionFields.add(descriptionField);
+        rowPanel.add(new JLabel("Duration (minutes): "));
+        rowPanel.add(durationField);
+        rowPanel.add(new JLabel("Description: "));
+        rowPanel.add(descriptionField);
+        intervalPanel.add(rowPanel);
+        intervalPanel.revalidate();
+        intervalPanel.repaint();
+    }
+
+    public List<Interval> getIntervals() {
+        List<Interval> intervals = new ArrayList<>();
+        for (int i = 0; i < durationFields.size(); i++) {
+            String durationText = durationFields.get(i).getText();
+            String description = descriptionFields.get(i).getText();
+            if (!durationText.isEmpty() && !description.isEmpty()) {
+                int duration = Integer.parseInt(durationText);
+                intervals.add(new Interval(duration, description));
+            }
+        }
+        return intervals;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            IntervalWorkoutDialog dialog = new IntervalWorkoutDialog(new JFrame());
+            dialog.setVisible(true);
+        });
+    }
+
+    static class Interval {
+        private int duration;
+        private String description;
+
+        public Interval(int duration, String description) {
+            this.duration = duration;
+            this.description = description;
+        }
+
+        public int getDuration() {
+            return duration;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+}
+
