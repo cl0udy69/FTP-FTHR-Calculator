@@ -513,3 +513,7 @@ class CreateTrainingPlanDialog extends JDialog {
         }
     }
 }
+
+class CreateIntervalWorkoutDialog extends JPanel {
+
+}
