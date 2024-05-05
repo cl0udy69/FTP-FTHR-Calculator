@@ -8,10 +8,10 @@ import java.io.*;
 
 public class GUI extends JFrame {
     private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, createTrainingPlanButton,
-            saveDataButton, loadDataButton;
+            saveDataButton, loadDataButton, clearButton;
     private JTextArea outputTextArea;
 
-    // Array of options for action selection
+    // Array of options for action selectionz
     private String[] options = { "Calculate FTP", "Calculate TSS", "Calculate LTHR", "Create Training Plan",
             "Save Data", "Load Data" };
     // Index to keep track of the current action being processed
@@ -44,6 +44,7 @@ public class GUI extends JFrame {
         saveDataButton.setPreferredSize(new Dimension(150, 50));
         loadDataButton = new JButton("Load Data");
         loadDataButton.setPreferredSize(new Dimension(150, 50));
+        clearButton = new JButton("Clear Text Field");
 
         buttonPanel.add(calculateFTPButton);
         buttonPanel.add(calculateTSSButton);
@@ -51,6 +52,7 @@ public class GUI extends JFrame {
         buttonPanel.add(createTrainingPlanButton);
         buttonPanel.add(saveDataButton);
         buttonPanel.add(loadDataButton);
+        buttonPanel.add(clearButton); // Add clear button to button panel
 
         // Text area for output
         outputTextArea = new JTextArea();
@@ -69,6 +71,7 @@ public class GUI extends JFrame {
         createTrainingPlanButton.addActionListener(e -> createTrainingPlan());
         saveDataButton.addActionListener(new SaveDataListener());
         loadDataButton.addActionListener(new LoadDataListener());
+        clearButton.addActionListener(e -> promptToSaveBeforeClearing()); // Add action listener to clear button
 
         // Prompt user to save data before closing the application
         addWindowListener(new WindowAdapter() {
@@ -85,6 +88,22 @@ public class GUI extends JFrame {
                 }
             }
         });
+    }
+
+    private void promptToSaveBeforeClearing() {
+        int option = JOptionPane.showConfirmDialog(this,
+                "Do you want to save your data before clearing the text field?", "Save Data",
+                JOptionPane.YES_NO_CANCEL_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            saveData();
+            clearTextField();
+        } else if (option == JOptionPane.NO_OPTION) {
+            clearTextField();
+        }
+    }
+
+    private void clearTextField() {
+        outputTextArea.setText(""); // Clear the text field
     }
 
     // Method to calculate FTP
@@ -254,9 +273,9 @@ class CalculateTSSDialog extends JDialog {
             int tss = (int) (((duration * normalizedPower * intensityFactor) / (functionalThresholdPower * 3600))
                     * 100);
             parentGUI.getOutputTextArea().append("Your training stress score is: " + tss);
-            dispose(); // Close the dialog after calculation
+            dispose();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter valid positive numbers.", "Error",
+            JOptionPane.showMessageDialog(this, "Please enter valid positive numbers for all fields.", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -270,7 +289,7 @@ class CalculateLTHRDialog extends JDialog {
 
     public CalculateLTHRDialog(GUI parentGUI) {
         super(parentGUI, "Calculate LTHR", true);
-        setSize(400, 300);
+        setSize(300, 200);
         setLocationRelativeTo(parentGUI);
         setLayout(new BorderLayout());
 
@@ -281,7 +300,7 @@ class CalculateLTHRDialog extends JDialog {
 
         heartRateField = new JTextField();
 
-        inputPanel.add(new JLabel("Heart Rate:"));
+        inputPanel.add(new JLabel("Heart Rate (bpm):"));
         inputPanel.add(heartRateField);
 
         calculateButton = new JButton("Calculate");
@@ -296,24 +315,12 @@ class CalculateLTHRDialog extends JDialog {
     private void calculateLTHR() {
         try {
             int heartRate = Integer.parseInt(heartRateField.getText());
-
             if (heartRate <= 0)
                 throw new NumberFormatException();
 
-            int LTHR = (int) (heartRate * 0.95);
-
-            parentGUI.getOutputTextArea().append("Your LTHR is " + LTHR + "\n");
-            parentGUI.getOutputTextArea().append("Zone 1: " + (int) (LTHR * 0) + " - " + (int) (LTHR * 0.81) + "\n");
-            parentGUI.getOutputTextArea()
-                    .append("Zone 2: " + (int) (LTHR * 0.81) + " - " + (int) (heartRate * 0.89) + "\n");
-            parentGUI.getOutputTextArea().append("Zone 3: " + (int) (LTHR * 0.90) + " - " + (int) (LTHR * 0.93) + "\n");
-            parentGUI.getOutputTextArea().append("Zone 4: " + (int) (LTHR * 0.94) + " - " + (int) (LTHR * 0.99) + "\n");
-            parentGUI.getOutputTextArea()
-                    .append("Zone 5a: " + (int) (LTHR * 1.00) + " - " + (int) (LTHR * 1.02) + "\n");
-            parentGUI.getOutputTextArea()
-                    .append("Zone 5b: " + (int) (LTHR * 1.03) + " - " + (int) (LTHR * 1.06) + "\n");
-            parentGUI.getOutputTextArea().append("Zone 5c: " + (int) (LTHR * 1.06) + " <" + "\n");
-            dispose(); // Close the dialog after calculation
+            int lthr = (int) (heartRate * 0.95);
+            parentGUI.getOutputTextArea().append("Your lactate threshold heart rate is: " + lthr);
+            dispose();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter a valid positive number for Heart Rate.", "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -322,43 +329,32 @@ class CalculateLTHRDialog extends JDialog {
 }
 
 class CreateTrainingPlanDialog extends JDialog {
-    private JTextField durationField, distanceField, avgPowerField, avgHeartRateField, avgCadenceField,
-            intervalZonesField, intervalWorkoutField, heartRateIntervalsField, cadenceIntervalWorkoutField,
-            avgPaceField;
+    private JTextField durationField, intensityField;
     private JButton createButton;
-    private JComboBox<String> objectiveComboBox; // New JComboBox for key objective selection
 
     private GUI parentGUI;
 
     public CreateTrainingPlanDialog(GUI parentGUI) {
         super(parentGUI, "Create Training Plan", true);
-        setSize(450, 500);
+        setSize(400, 200);
         setLocationRelativeTo(parentGUI);
         setLayout(new BorderLayout());
 
         this.parentGUI = parentGUI;
 
-        JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
-        inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
+        JPanel inputPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        String[] options = { "Cycling", "Running" };
-        int choice = JOptionPane.showOptionDialog(null, "Choose either cycling or running?",
-                "Choose Objective",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        durationField = new JTextField();
+        intensityField = new JTextField();
 
-        if (choice == JOptionPane.CLOSED_OPTION) {
-            dispose();
-            return; // User closed the dialog
-        }
+        inputPanel.add(new JLabel("Duration (minutes):"));
+        inputPanel.add(durationField);
+        inputPanel.add(new JLabel("Intensity (%FTP):"));
+        inputPanel.add(intensityField);
 
-        if (options[choice].equals("Cycling")) {
-            initializeCyclingInputPanel(inputPanel);
-        } else if (options[choice].equals("Running")) {
-            initializeRunningInputPanel(inputPanel);
-        }
-
-        createButton = new JButton("Create");
-        createButton.addActionListener(e -> createTrainingRide());
+        createButton = new JButton("Create Plan");
+        createButton.addActionListener(e -> createTrainingPlan());
 
         JScrollPane scrollPane = new JScrollPane(inputPanel);
 
@@ -366,182 +362,19 @@ class CreateTrainingPlanDialog extends JDialog {
         add(createButton, BorderLayout.SOUTH);
     }
 
-    private void initializeCyclingInputPanel(JPanel inputPanel) {
-        inputPanel.removeAll(); // Clear existing components
-        inputPanel.setLayout(new GridLayout(14, 2, 10, 10));
-
-        // Add cycling-specific input fields
-        JLabel durationLabel = new JLabel("Duration (minutes):");
-        durationField = new JTextField();
-        JLabel distanceLabel = new JLabel("Distance (if desired; enter units):");
-        distanceField = new JTextField();
-        JLabel avgPowerLabel = new JLabel("Average Estimated Power:");
-        avgPowerField = new JTextField();
-        JLabel avgHeartRateLabel = new JLabel("Average Estimated Heart Rate:");
-        avgHeartRateField = new JTextField();
-        JLabel avgCadenceLabel = new JLabel("Average Cadence:");
-        avgCadenceField = new JTextField();
-        JLabel intervalZonesLabel = new JLabel("Interval Zones:");
-        intervalZonesField = new JTextField();
-        JLabel intervalWorkoutLabel = new JLabel("Interval Workout:");
-        intervalWorkoutField = new JTextField();
-        JLabel heartRateIntervalsLabel = new JLabel("Heart Rate Intervals:");
-        heartRateIntervalsField = new JTextField();
-        JLabel cadenceIntervalWorkoutLabel = new JLabel("Cadence Interval Workout:");
-        cadenceIntervalWorkoutField = new JTextField();
-
-        // add expected weather
-        // update interval system
-        // add workout notes
-
-        // Add JComboBox for key objective selection
-        JLabel objectiveLabel = new JLabel("Key Objective:");
-        String[] objectives = { "Base", "Tempo", "Other" };
-        objectiveComboBox = new JComboBox<>(objectives);
-
-        inputPanel.add(durationLabel);
-        inputPanel.add(durationField);
-        inputPanel.add(distanceLabel);
-        inputPanel.add(distanceField);
-        inputPanel.add(avgPowerLabel);
-        inputPanel.add(avgPowerField);
-        inputPanel.add(avgHeartRateLabel);
-        inputPanel.add(avgHeartRateField);
-        inputPanel.add(avgCadenceLabel);
-        inputPanel.add(avgCadenceField);
-        inputPanel.add(intervalZonesLabel);
-        inputPanel.add(intervalZonesField);
-        inputPanel.add(intervalWorkoutLabel);
-        inputPanel.add(intervalWorkoutField);
-        inputPanel.add(heartRateIntervalsLabel);
-        inputPanel.add(heartRateIntervalsField);
-        inputPanel.add(cadenceIntervalWorkoutLabel);
-        inputPanel.add(cadenceIntervalWorkoutField);
-
-        inputPanel.add(objectiveLabel);
-        inputPanel.add(objectiveComboBox); // Add JComboBox to inputPanel
-    }
-
-    private void createTrainingRide() {
+    private void createTrainingPlan() {
         try {
             int duration = Integer.parseInt(durationField.getText());
-            int avgPower = Integer.parseInt(avgPowerField.getText());
-            int avgHeartRate = Integer.parseInt(avgHeartRateField.getText());
-            int avgCadence = Integer.parseInt(avgCadenceField.getText());
+            int intensity = Integer.parseInt(intensityField.getText());
+            if (duration <= 0 || intensity <= 0)
+                throw new NumberFormatException();
 
-            String intervalZones = intervalZonesField.getText();
-            String intervalWorkout = intervalWorkoutField.getText();
-            String heartRateIntervals = heartRateIntervalsField.getText();
-            String cadenceIntervalWorkout = cadenceIntervalWorkoutField.getText();
-            String distance = distanceField.getText();
-
-            // Get the selected item from the JComboBox
-            String selectedObjective = (String) objectiveComboBox.getSelectedItem();
-
-            StringBuilder planDetails = new StringBuilder();
-            planDetails.append("Training Plan Details:\n");
-
-            planDetails.append("Duration (minutes): ").append(duration).append("\n");
-            planDetails.append("Distance (if desired): ").append(distance).append("\n");
-            planDetails.append("Average Estimated Power: ").append(avgPower + "W").append("\n");
-            planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate + "BPM").append("\n");
-            planDetails.append("Average Cadence: ").append(avgCadence + "RPM").append("\n");
-            planDetails.append("Interval Zones: ").append(intervalZones).append("\n");
-            planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
-            planDetails.append("Heart Rate Intervals: ").append(heartRateIntervals).append("\n");
-            planDetails.append("Cadence Interval Workout: ").append(cadenceIntervalWorkout).append("\n");
-
-            // Include the selected objective in the planDetails
-            planDetails.append("Selected Objective: ").append(selectedObjective).append("\n");
-
-            parentGUI.getOutputTextArea().append(planDetails.toString());
-            JOptionPane.showMessageDialog(this, "Training plan created successfully!", "Success",
-                    JOptionPane.INFORMATION_MESSAGE);
+            parentGUI.getOutputTextArea().append("Your training plan is created with Duration: " + duration
+                    + " minutes, Intensity: " + intensity + "%FTP");
             dispose();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter valid numbers for all fields.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter valid positive numbers for Duration and Intensity.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    private void initializeRunningInputPanel(JPanel inputPanel) {
-        durationField = new JTextField();
-        distanceField = new JTextField();
-        avgPaceField = new JTextField();
-        avgHeartRateField = new JTextField();
-        intervalZonesField = new JTextField();
-        intervalWorkoutField = new JTextField();
-        heartRateIntervalsField = new JTextField();
-
-        inputPanel.add(new JLabel("Duration (minutes):"));
-        inputPanel.add(durationField);
-        inputPanel.add(new JLabel("Distance (if desired; enter units):"));
-        inputPanel.add(distanceField);
-        inputPanel.add(new JLabel("Average Estimated Pace:"));
-        inputPanel.add(avgPaceField);
-        inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
-        inputPanel.add(avgHeartRateField);
-        inputPanel.add(new JLabel("Interval Zones:"));
-        inputPanel.add(intervalZonesField);
-        inputPanel.add(new JLabel("Interval Workout:"));
-        inputPanel.add(intervalWorkoutField);
-        inputPanel.add(new JLabel("Heart Rate Intervals:"));
-        inputPanel.add(heartRateIntervalsField);
-    }
-
-    private void createTrainingRun() {
-        try {
-            int duration = Integer.parseInt(durationField.getText());
-            int avgHeartRate = Integer.parseInt(avgHeartRateField.getText());
-
-            String intervalZones = intervalZonesField.getText();
-            String intervalWorkout = intervalWorkoutField.getText();
-            String heartRateIntervals = heartRateIntervalsField.getText();
-            String distance = distanceField.getText();
-            String avgPace = avgPaceField.getText();
-
-            StringBuilder planDetails = new StringBuilder();
-            planDetails.append("Training Plan Details:\n");
-            planDetails.append("Duration (minutes): ").append(duration).append("\n");
-            planDetails.append("Distance (if desired): ").append(distance).append("\n");
-            planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate + "BPM").append("\n");
-            planDetails.append("Average Estimated Pace: ").append(avgPace).append("\n");
-            planDetails.append("Interval Zones: ").append(intervalZones).append("\n");
-            planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
-            planDetails.append("Heart Rate Intervals: ").append(heartRateIntervals).append("\n");
-
-            parentGUI.getOutputTextArea().append(planDetails.toString());
-            JOptionPane.showMessageDialog(this, "Training plan created successfully!", "Success",
-                    JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter valid numbers for all fields.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-}
-
-class NutritionTrackerDialog extends JDialog {
-    private JTextField caloriesField, wieghtField, heightField, fatField,
-    carbField, sugarField, sodiumField, ironField;
-
-    // private JButton createButton;
-    // private JComboBox<String> objectiveComboBox;
-
-    private GUI parentGUI;
-
-    public NutritionTrackerDialog(GUI parentGUI) {
-        super(parentGUI, "Track Nutrition", true);
-        setSize(450, 500);
-        setLocationRelativeTo(parentGUI);
-        setLayout(new BorderLayout());
-
-        this.parentGUI = parentGUI;
-
-        JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
-        inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
-
-
-    }
-
 }
