@@ -522,5 +522,26 @@ class CreateTrainingPlanDialog extends JDialog {
 }
 
 class NutritionTrackerDialog extends JDialog {
+    private JTextField caloriesField, wieghtField, heightField, fatField,
+    carbField, sugarField, sodiumField, ironField;
+
+    // private JButton createButton;
+    // private JComboBox<String> objectiveComboBox;
+
+    private GUI parentGUI;
+
+    public NutritionTrackerDialog(GUI parentGUI) {
+        super(parentGUI, "Track Nutrition", true);
+        setSize(450, 500);
+        setLocationRelativeTo(parentGUI);
+        setLayout(new BorderLayout());
+
+        this.parentGUI = parentGUI;
+
+        JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
+        inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
+
+
+    }
 
 }
