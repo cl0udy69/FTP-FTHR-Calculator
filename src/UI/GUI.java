@@ -342,7 +342,7 @@ class CreateTrainingPlanDialog extends JDialog {
         inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
 
         String[] options = { "Cycling", "Running" };
-        int choice = JOptionPane.showOptionDialog(null, "What is the key object of the training ride?",
+        int choice = JOptionPane.showOptionDialog(null, "Choose either cycling or running?",
                 "Choose Objective",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
@@ -437,6 +437,7 @@ class CreateTrainingPlanDialog extends JDialog {
 
             StringBuilder planDetails = new StringBuilder();
             planDetails.append("Training Plan Details:\n");
+
             planDetails.append("Duration (minutes): ").append(duration).append("\n");
             planDetails.append("Distance (if desired): ").append(distance).append("\n");
             planDetails.append("Average Estimated Power: ").append(avgPower + "W").append("\n");
@@ -514,6 +515,6 @@ class CreateTrainingPlanDialog extends JDialog {
     }
 }
 
-class CreateIntervalWorkoutDialog extends JPanel {
+class NutritionTrackerDialog extends JDialog {
 
 }
