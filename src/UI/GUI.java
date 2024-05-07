@@ -7,13 +7,11 @@ import java.awt.event.*;
 import java.io.*;
 
 public class GUI extends JFrame {
-    private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, createTrainingPlanButton,
-            saveDataButton, loadDataButton;
+    private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, createTrainingPlanButton, saveDataButton, loadDataButton;
     private JTextArea outputTextArea;
 
     // Array of options for action selection
-    private String[] options = { "Calculate FTP", "Calculate TSS", "Calculate LTHR", "Create Training Plan",
-            "Save Data", "Load Data" };
+    private String[] options = { "Calculate FTP", "Calculate TSS", "Calculate LTHR", "Create Training Plan", "Save Data", "Load Data" };
     // Index to keep track of the current action being processed
     private int currentActionIndex = 0;
 
@@ -90,12 +88,11 @@ public class GUI extends JFrame {
     private void clearTextField() {
         outputTextArea.setText("");
     }
-
+    
     // Method to calculate FTP
     private void calculateFTP() {
         try {
-            String input = JOptionPane
-                    .showInputDialog("Enter your best 20 minute power: \n(Enter 'skip' to skip this step)");
+            String input = JOptionPane.showInputDialog("Enter your best 20 minute power: \n(Enter 'skip' to skip this step)");
             if (input == null || input.isEmpty())
                 return; // Cancel button pressed
             if (input.equalsIgnoreCase("skip")) {
@@ -474,31 +471,33 @@ class CreateTrainingPlanDialog extends JDialog {
     }
 
     private void initializeRunningInputPanel(JPanel inputPanel) {
-        dateField = new JTextField();
-        durationField = new JTextField();
-        distanceField = new JTextField();
-        avgPaceField = new JTextField();
-        avgHeartRateField = new JTextField();
-        intervalZonesField = new JTextField();
-        intervalWorkoutField = new JTextField();
-        heartRateIntervalsField = new JTextField();
+        
+        
+        // dateField = new JTextField();
+        // durationField = new JTextField();
+        // distanceField = new JTextField();
+        // avgPaceField = new JTextField();
+        // avgHeartRateField = new JTextField();
+        // intervalZonesField = new JTextField();
+        // intervalWorkoutField = new JTextField();
+        // heartRateIntervalsField = new JTextField();
 
-        inputPanel.add(new JLabel("Date: "));
-        inputPanel.add(dateField);
-        inputPanel.add(new JLabel("Duration (minutes):"));
-        inputPanel.add(durationField);
-        inputPanel.add(new JLabel("Distance (if desired; enter units):"));
-        inputPanel.add(distanceField);
-        inputPanel.add(new JLabel("Average Estimated Pace:"));
-        inputPanel.add(avgPaceField);
-        inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
-        inputPanel.add(avgHeartRateField);
-        inputPanel.add(new JLabel("Interval Zones:"));
-        inputPanel.add(intervalZonesField);
-        inputPanel.add(new JLabel("Interval Workout:"));
-        inputPanel.add(intervalWorkoutField);
-        inputPanel.add(new JLabel("Heart Rate Intervals:"));
-        inputPanel.add(heartRateIntervalsField);
+        // inputPanel.add(new JLabel("Date: "));
+        // inputPanel.add(dateField);
+        // inputPanel.add(new JLabel("Duration (minutes):"));
+        // inputPanel.add(durationField);
+        // inputPanel.add(new JLabel("Distance (if desired; enter units):"));
+        // inputPanel.add(distanceField);
+        // inputPanel.add(new JLabel("Average Estimated Pace:"));
+        // inputPanel.add(avgPaceField);
+        // inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
+        // inputPanel.add(avgHeartRateField);
+        // inputPanel.add(new JLabel("Interval Zones:"));
+        // inputPanel.add(intervalZonesField);
+        // inputPanel.add(new JLabel("Interval Workout:"));
+        // inputPanel.add(intervalWorkoutField);
+        // inputPanel.add(new JLabel("Heart Rate Intervals:"));
+        // inputPanel.add(heartRateIntervalsField);
     }
 
     private void createTrainingRun() {
@@ -566,12 +565,13 @@ class NutritionTrackerDialog extends JDialog {
         }
 
         if (options[choice].equals("Cycling")) {
-            JOptionPane.showMessageDialog(this, "Cycling nutrition tracking is not yet available.", "Error", JOptionPane.ERROR_MESSAGE);
+            initializeNutritionCyclingInputPanel(inputPanel);
             dispose(); // Close the dialog
         } else if (options[choice].equals("Running")) {
             JOptionPane.showMessageDialog("Running nutrition tracking is not yet available", "Error");
             dispose();
         }
+        
         createButton = new JButton("Create");
         createButton.addActionListener(e -> createTrainingRide());
 
@@ -580,6 +580,7 @@ class NutritionTrackerDialog extends JDialog {
         add(scrollPane, BorderLayout.CENTER);
         add(createButton, BorderLayout.SOUTH);
     }
+    
     private void initializeNutritionCyclingInputPanel(JPanel inputPanel) {
         inputPanel.removeAll();
         inputPanel.setLayout(new GridLayout(14, 2, 10, 10));
@@ -655,5 +656,7 @@ class NutritionTrackerDialog extends JDialog {
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog("Please enter valid data", "Error", 
             JOptionPane.ERROR_MESSAGE);
+        }
     }
+
 }
