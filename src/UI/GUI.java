@@ -602,5 +602,58 @@ class NutritionTrackerDialog extends JDialog {
         sodiumField = new JTextField();
         JLabel ironLabel = new JLabel("Iron: ");
         ironField = new JTextField();
+
+        inputPanel.add(dateLabel);
+        inputPanel.add(dateField);
+        inputPanel.add(heightLabel);
+        inputPanel.add(heightField);
+        inputPanel.add(weightLabel);
+        inputPanel.add(weightField);
+        inputPanel.add(caloriesLabel);
+        inputPanel.add(caloriesField);
+        inputPanel.add(fatLabel);
+        inputPanel.add(fatField);
+        inputPanel.add(carbLabel);
+        inputPanel.add(carbField);
+        inputPanel.add(sugarLabel);
+        inputPanel.add(sugarField);
+        inputPanel.add(sodiumLabel);
+        inputPanel.add(sodiumField);
+        inputPanel.add(ironLabel);
+        inputPanel.add(ironField);
+    }
+
+    private void CreateNutritionCycling() {
+        try {
+            int height = Integer.parseInt(heightField.getText());
+            int weight = Integer.parseInt(weightField.getText());
+            int calories = Integer.parseInt(caloriesField.getText());
+            int fat = Integer.parseInt(fatField.getText());
+            int carb = Integer.parseInt(carbField.getText());
+            int sugar = Integer.parseInt(sugarField.getText());
+            int sodium = Integer.parseInt(sodiumField.getText());
+            int iron = Integer.parseInt(ironField.getText());
+
+            String date = dateField.getText();
+
+            StringBuilder planDetials = new StringBuilder();
+            planDetials.append("Cycling nutrition tracker:\n");
+            planDetials.append("Date").append(date).append("\n");
+            planDetails.append("Height").append(height).append("\n");
+            planDetails.append("Weight").append(weight).append("\n");
+            planDetails.append("Calories").append(calories).append("\n");
+            planDetails.append("Fat").append(fat).append("\n");
+            planDetails.append("Carbs").append(carb).append("\n");
+            planDetails.append("Sugar").append(sugar).append("\n");
+            planDetails.append("Sodium").append(sodium).append("\n");
+            planDetails.append("Iron").append(iron).append("\n");
+
+            parentGUI.getOutputTextArea().append(planDetails.toString());
+            JOptionPane.showMessagedialog(this, "Nutrition tracked successfully", "Success",
+                JOptionPane.ERROR_MESSAGE);
+            dispose();
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog("Please enter valid data", "Error", 
+            JOptionPane.ERROR_MESSAGE);
     }
 }
