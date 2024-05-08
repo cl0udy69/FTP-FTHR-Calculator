@@ -1,20 +1,26 @@
-package methods;
+package UI.dialog;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import UI.GUI;
+
 import java.awt.*;
 import java.awt.event.*;
 
 public class CalculateTSSDialog extends JDialog {
     private JTextField durationField, normalizedPowerField, intensityFactorField, functionalThresholdPowerField;
     private JButton calculateButton;
-    private JTextArea outputTextArea;
 
-    public CalculateTSSDialog(JFrame parent) {
-        super(parent, "Calculate TSS", true);
+    private GUI parentGUI;
+
+    public CalculateTSSDialog(GUI parentGUI) {
+        super(parentGUI, "Calculate TSS", true);
         setSize(400, 300);
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(parentGUI);
         setLayout(new BorderLayout());
+
+        this.parentGUI = parentGUI;
 
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -36,14 +42,10 @@ public class CalculateTSSDialog extends JDialog {
         calculateButton = new JButton("Calculate");
         calculateButton.addActionListener(e -> calculateTSS());
 
-        outputTextArea = new JTextArea();
-        outputTextArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(inputPanel);
 
-        JScrollPane scrollPane = new JScrollPane(outputTextArea);
-
-        add(inputPanel, BorderLayout.NORTH);
-        add(calculateButton, BorderLayout.CENTER);
-        add(scrollPane, BorderLayout.SOUTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(calculateButton, BorderLayout.SOUTH);
     }
 
     private void calculateTSS() {
@@ -58,9 +60,10 @@ public class CalculateTSSDialog extends JDialog {
 
             int tss = (int) (((duration * normalizedPower * intensityFactor) / (functionalThresholdPower * 3600))
                     * 100);
-            outputTextArea.setText("Your training stress score is: " + tss);
+            parentGUI.getOutputTextArea().append("Your training stress score is: " + tss);
+            dispose();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter valid positive numbers.", "Error",
+            JOptionPane.showMessageDialog(this, "Please enter valid positive numbers for all fields.", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
