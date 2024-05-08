@@ -53,7 +53,7 @@ public class CreateTrainingPlanDialog extends JDialog {
 
     private void initializeCyclingInputPanel(JPanel inputPanel) {
         inputPanel.removeAll(); // Clear existing components
-        inputPanel.setLayout(new GridLayout(14, 2, 10, 10));
+        inputPanel.setLayout(new GridLayout(16, 2, 10, 10));
 
         // Add cycling-specific input fields
         JLabel dateLabel = new JLabel("Date: ");
@@ -77,9 +77,24 @@ public class CreateTrainingPlanDialog extends JDialog {
         JLabel cadenceIntervalWorkoutLabel = new JLabel("Cadence Interval Workout:");
         cadenceIntervalWorkoutField = new JTextField();
 
-        // add expected weather
-        // update interval system
-        // add workout notes
+        // Add sliders for intensity levels
+        JLabel enduranceIntensityLabel = new JLabel("Endurance Intensity:");
+        JSlider enduranceIntensitySlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 5); // Default value: 5
+        enduranceIntensitySlider.setMajorTickSpacing(1);
+        enduranceIntensitySlider.setPaintTicks(true);
+        enduranceIntensitySlider.setPaintLabels(true);
+
+        JLabel tempoIntensityLabel = new JLabel("Tempo Intensity:");
+        JSlider tempoIntensitySlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 5); // Default value: 5
+        tempoIntensitySlider.setMajorTickSpacing(1);
+        tempoIntensitySlider.setPaintTicks(true);
+        tempoIntensitySlider.setPaintLabels(true);
+
+        JLabel vo2MaxIntensityLabel = new JLabel("VO2Max Intensity: ");
+        JSlider vo2MaxIntensitySlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 5); // Default value: 5
+        vo2MaxIntensitySlider.setMajorTickSpacing(1);
+        vo2MaxIntensitySlider.setPaintTicks(true);
+        vo2MaxIntensitySlider.setPaintLabels(true);
 
         // Add JComboBox for key objective selection
         JLabel objectiveLabel = new JLabel("Key Objective:");
@@ -107,6 +122,13 @@ public class CreateTrainingPlanDialog extends JDialog {
         inputPanel.add(cadenceIntervalWorkoutLabel);
         inputPanel.add(cadenceIntervalWorkoutField);
 
+        inputPanel.add(enduranceIntensityLabel);
+        inputPanel.add(enduranceIntensitySlider);
+        inputPanel.add(tempoIntensityLabel);
+        inputPanel.add(tempoIntensitySlider);
+        inputPanel.add(vo2MaxIntensityLabel);
+        inputPanel.add(vo2MaxIntensitySlider);
+
         inputPanel.add(objectiveLabel);
         inputPanel.add(objectiveComboBox); // Add JComboBox to inputPanel
     }
@@ -127,6 +149,9 @@ public class CreateTrainingPlanDialog extends JDialog {
 
             // Get the selected item from the JComboBox
             String selectedObjective = (String) objectiveComboBox.getSelectedItem();
+            String enduranceIntensitySlider = (String) objectiveComboBox.getSelectedItem();
+            String tempoIntensitySlider = (String) objectiveComboBox.getSelectedItem();
+            String vo2MaxIntensitySlider = (String) objectiveComboBox.getSelectedItem();
 
             StringBuilder planDetails = new StringBuilder();
             planDetails.append("Training Plan Details:\n");
@@ -140,8 +165,9 @@ public class CreateTrainingPlanDialog extends JDialog {
             planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
             planDetails.append("Heart Rate Intervals: ").append(heartRateIntervals).append("\n");
             planDetails.append("Cadence Interval Workout: ").append(cadenceIntervalWorkout).append("\n");
-
-            // Include the selected objective in the planDetails
+            planDetails.append("Endurance: ").append(enduranceIntensitySlider).append("\n");
+            planDetails.append("Tempo: ").append(tempoIntensitySlider).append("\n");
+            planDetails.append("VO2Max: ").append(vo2MaxIntensitySlider).append("\n");
             planDetails.append("Selected Objective: ").append(selectedObjective).append("\n");
 
             parentGUI.getOutputTextArea().append(planDetails.toString());
@@ -156,31 +182,31 @@ public class CreateTrainingPlanDialog extends JDialog {
 
     private void initializeRunningInputPanel(JPanel inputPanel) {
 
-        // dateField = new JTextField();
-        // durationField = new JTextField();
-        // distanceField = new JTextField();
-        // avgPaceField = new JTextField();
-        // avgHeartRateField = new JTextField();
-        // intervalZonesField = new JTextField();
-        // intervalWorkoutField = new JTextField();
-        // heartRateIntervalsField = new JTextField();
+        dateField = new JTextField();
+        durationField = new JTextField();
+        distanceField = new JTextField();
+        avgPaceField = new JTextField();
+        avgHeartRateField = new JTextField();
+        intervalZonesField = new JTextField();
+        intervalWorkoutField = new JTextField();
+        heartRateIntervalsField = new JTextField();
 
-        // inputPanel.add(new JLabel("Date: "));
-        // inputPanel.add(dateField);
-        // inputPanel.add(new JLabel("Duration (minutes):"));
-        // inputPanel.add(durationField);
-        // inputPanel.add(new JLabel("Distance (if desired; enter units):"));
-        // inputPanel.add(distanceField);
-        // inputPanel.add(new JLabel("Average Estimated Pace:"));
-        // inputPanel.add(avgPaceField);
-        // inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
-        // inputPanel.add(avgHeartRateField);
-        // inputPanel.add(new JLabel("Interval Zones:"));
-        // inputPanel.add(intervalZonesField);
-        // inputPanel.add(new JLabel("Interval Workout:"));
-        // inputPanel.add(intervalWorkoutField);
-        // inputPanel.add(new JLabel("Heart Rate Intervals:"));
-        // inputPanel.add(heartRateIntervalsField);
+        inputPanel.add(new JLabel("Date: "));
+        inputPanel.add(dateField);
+        inputPanel.add(new JLabel("Duration (minutes):"));
+        inputPanel.add(durationField);
+        inputPanel.add(new JLabel("Distance (if desired; enter units):"));
+        inputPanel.add(distanceField);
+        inputPanel.add(new JLabel("Average Estimated Pace:"));
+        inputPanel.add(avgPaceField);
+        inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
+        inputPanel.add(new JLabel("Interval Zones:"));
+        inputPanel.add(intervalZonesField);
+        inputPanel.add(new JLabel("Interval Workout:"));
+        inputPanel.add(intervalWorkoutField);
+        inputPanel.add(avgHeartRateField);
+        inputPanel.add(new JLabel("Heart Rate Intervals:"));
+        inputPanel.add(heartRateIntervalsField);
     }
 
     private void createTrainingRun() {
