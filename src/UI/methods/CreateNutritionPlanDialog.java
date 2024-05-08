@@ -22,7 +22,7 @@
 // // Sample meal plan
 // private JTextArea sampleMealPlanTextArea;
 
-package UI.dialog;
+package UI.methods;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -51,48 +51,6 @@ public class CreateNutritionPlanDialog extends JDialog {
         JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
         inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
 
-        String[] options = { "Weight Loss", "Muscle Gain", "Improved Performance", "Cycling", "Running" };
-        int choice = JOptionPane.showOptionDialog(null, "Options",
-                "Choose an option", JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-
-        if (choice == JOptionPane.CLOSED_OPTION) {
-            dispost();
-            return;
-        }
-        if (options[choice].equals("Weight Loss")) {
-            JOptionPane.showMessageDialog(this, "Weight Loss is not yet supported. Please select a different option.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            dispose();
-            return;
-        } else if (options[choice].equals("Muscle Gain")) {
-            JOptionPane.showMessageDialog("Muscle Gain is not yet supported. Please select a different option", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            dispose();
-            return;
-        } else if (options[choice].equals("Improved Performance")) {
-            JOptionPane.showMessageDialog(this,
-                    "Improved performance is not yet supported. Please select a different option.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            dispose();
-            return;
-        } else if (options[choice].equals("Cycling")) {
-            JOptionPane.showMessageDialog(this, "Cycling is not yet supported. Please select a different option.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            dispose();
-            return;
-        } else if (options[choice].equals("Running")) {
-            JOptionPane.showMessageDialog(this, "Running is not yet supported. Please select a different option.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            dispose();
-            return;
-        }
-    }
-
-    private void initializeNutritionCyclingInputPanel(JPanel inputPanel) {
-        inputPanel.removeAll();
-        inputPanel.setLayout(new GridLayout(16, 2, 10, 10));
-
         JLabel dateLabel = new JLabel("Date: ");
         dateField = new JTextField();
         JLabel weightLabel = new JLabel("Weight: ");
@@ -110,16 +68,6 @@ public class CreateNutritionPlanDialog extends JDialog {
         JLabel ironLabel = new JLabel("Iron: ");
         ironField = new JTextField();
 
-        JLabel mealWeightLabel = new JLabel("How heavy is the meal on your digestive system");
-        JSlider mealWeightSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 5);
-        mealWeightSlider.setMajorTickSpacing(1);
-        mealWeightSlider.setPaintTicks(true);
-        mealWeightSlider.setPaintLabels(true);
-
-        JLabel objectiveLabel = new JLabel("Key Objective: ");
-        String[] objectives = { "Gain weight", "Lose weight", "Track nutrition", "Other" };
-        objectiveComboBox = new JComboBox<>(objectives);
-
         inputPanel.add(dateLabel);
         inputPanel.add(dateField);
         inputPanel.add(weightLabel);
@@ -136,6 +84,12 @@ public class CreateNutritionPlanDialog extends JDialog {
         inputPanel.add(fatField);
         inputPanel.add(ironLabel);
         inputPanel.add(ironField);
+
+        createButton = new JButton("Create");
+        createButton.addActionListener(e -> createNutritionCycling());
+
+        add(inputPanel, BorderLayout.CENTER);
+        add(createButton, BorderLayout.SOUTH);
     }
 
     private void createNutritionCycling() {
@@ -162,10 +116,11 @@ public class CreateNutritionPlanDialog extends JDialog {
             planDetails.append("Iron: ").append(iron).append("\n");
 
             parentGUI.getOutputTextArea().append(planDetails.toString());
-            JOptionPane.showMessageDialog(this, "Nutrition plan created successfully!", "Success",
+            JOptionPane.showMessageDialog(parentGUI, "Nutrition plan created successfully!", "Success",
                     JOptionPane.INFORMATION_MESSAGE);
+            dispose(); // Dispose the dialog after creating the plan
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter valid numbers for all fields.", "Error",
+            JOptionPane.showMessageDialog(parentGUI, "Please enter valid numbers for all fields.", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }

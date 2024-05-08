@@ -1,4 +1,4 @@
-package UI.dialog;
+package UI.methods;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

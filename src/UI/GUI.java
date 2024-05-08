@@ -2,16 +2,19 @@ package UI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import UI.dialog.CalculateLTHRDialog;
-import UI.dialog.CalculateTSSDialog;
-import UI.dialog.CreateTrainingPlanDialog;
+
+import UI.methods.CalculateLTHRDialog;
+import UI.methods.CalculateTSSDialog;
+import UI.methods.CreateNutritionPlanDialog;
+import UI.methods.CreateTrainingPlanDialog;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
 public class GUI extends JFrame {
     private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, createTrainingPlanButton,
-            saveDataButton, loadDataButton, clearButton;
+            saveDataButton, loadDataButton, clearButton, createNutritionPlanButton; // Added createNutritionPlanButton
     private JTextArea outputTextArea;
 
     public GUI() {
@@ -21,7 +24,6 @@ public class GUI extends JFrame {
         setLayout(new BorderLayout());
 
         initializeComponents();
-
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -40,6 +42,7 @@ public class GUI extends JFrame {
         calculateTSSButton = new JButton("Calculate TSS");
         calculateLTHRButton = new JButton("Calculate LTHR");
         createTrainingPlanButton = new JButton("Create Training Plan");
+        createNutritionPlanButton = new JButton("Create Nutrition Plan"); // Added createNutritionPlanButton
         saveDataButton = new JButton("Save Data");
         loadDataButton = new JButton("Load Data");
         clearButton = new JButton("Clear Text Field");
@@ -48,6 +51,7 @@ public class GUI extends JFrame {
         buttonPanel.add(calculateTSSButton);
         buttonPanel.add(calculateLTHRButton);
         buttonPanel.add(createTrainingPlanButton);
+        buttonPanel.add(createNutritionPlanButton); // Added createNutritionPlanButton
         buttonPanel.add(saveDataButton);
         buttonPanel.add(loadDataButton);
         buttonPanel.add(clearButton);
@@ -64,6 +68,8 @@ public class GUI extends JFrame {
         calculateTSSButton.addActionListener(e -> calculateTSS());
         calculateLTHRButton.addActionListener(e -> calculateLTHR());
         createTrainingPlanButton.addActionListener(e -> createTrainingPlan());
+        createNutritionPlanButton.addActionListener(e -> createNutritionPlan()); // Added action listener for
+                                                                                 // createNutritionPlanButton
         saveDataButton.addActionListener(e -> saveData());
         loadDataButton.addActionListener(e -> loadData());
         clearButton.addActionListener(e -> clearTextArea());
@@ -87,6 +93,11 @@ public class GUI extends JFrame {
 
     private void createTrainingPlan() {
         CreateTrainingPlanDialog dialog = new CreateTrainingPlanDialog(this);
+        dialog.setVisible(true);
+    }
+
+    private void createNutritionPlan() {
+        CreateNutritionPlanDialog dialog = new CreateNutritionPlanDialog(this);
         dialog.setVisible(true);
     }
 
