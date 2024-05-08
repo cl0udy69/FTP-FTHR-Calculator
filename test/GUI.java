@@ -1,4 +1,4 @@
-package UI;
+package test;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -7,11 +7,13 @@ import java.awt.event.*;
 import java.io.*;
 
 public class GUI extends JFrame {
-    private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, createTrainingPlanButton, saveDataButton, loadDataButton;
+    private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, createTrainingPlanButton,
+            saveDataButton, loadDataButton;
     private JTextArea outputTextArea;
 
     // Array of options for action selection
-    private String[] options = { "Calculate FTP", "Calculate TSS", "Calculate LTHR", "Create Training Plan", "Save Data", "Load Data" };
+    private String[] options = { "Calculate FTP", "Calculate TSS", "Calculate LTHR", "Create Training Plan",
+            "Save Data", "Load Data" };
     // Index to keep track of the current action being processed
     private int currentActionIndex = 0;
 
@@ -88,11 +90,12 @@ public class GUI extends JFrame {
     private void clearTextField() {
         outputTextArea.setText("");
     }
-    
+
     // Method to calculate FTP
     private void calculateFTP() {
         try {
-            String input = JOptionPane.showInputDialog("Enter your best 20 minute power: \n(Enter 'skip' to skip this step)");
+            String input = JOptionPane
+                    .showInputDialog("Enter your best 20 minute power: \n(Enter 'skip' to skip this step)");
             if (input == null || input.isEmpty())
                 return; // Cancel button pressed
             if (input.equalsIgnoreCase("skip")) {
@@ -471,8 +474,7 @@ class CreateTrainingPlanDialog extends JDialog {
     }
 
     private void initializeRunningInputPanel(JPanel inputPanel) {
-        
-        
+
         // dateField = new JTextField();
         // durationField = new JTextField();
         // distanceField = new JTextField();
@@ -535,8 +537,8 @@ class CreateTrainingPlanDialog extends JDialog {
 }
 
 class NutritionTrackerDialog extends JDialog {
-    private JTextField caloriesField, wieghtField, heightField, fatField,
-    carbField, sugarField, sodiumField, ironField;
+    private JTextField caloriesField, weightField, heightField, fatField,
+            carbField, sugarField, sodiumField, ironField, dateField;
 
     // private JButton createButton;
     // private JComboBox<String> objectiveComboBox;
@@ -571,7 +573,7 @@ class NutritionTrackerDialog extends JDialog {
             JOptionPane.showMessageDialog("Running nutrition tracking is not yet available", "Error");
             dispose();
         }
-        
+
         createButton = new JButton("Create");
         createButton.addActionListener(e -> createTrainingRide());
 
@@ -580,7 +582,7 @@ class NutritionTrackerDialog extends JDialog {
         add(scrollPane, BorderLayout.CENTER);
         add(createButton, BorderLayout.SOUTH);
     }
-    
+
     private void initializeNutritionCyclingInputPanel(JPanel inputPanel) {
         inputPanel.removeAll();
         inputPanel.setLayout(new GridLayout(14, 2, 10, 10));
@@ -651,11 +653,11 @@ class NutritionTrackerDialog extends JDialog {
 
             parentGUI.getOutputTextArea().append(planDetails.toString());
             JOptionPane.showMessagedialog(this, "Nutrition tracked successfully", "Success",
-                JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE);
             dispose();
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog("Please enter valid data", "Error", 
-            JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog("Please enter valid data", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
