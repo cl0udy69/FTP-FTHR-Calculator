@@ -90,11 +90,6 @@ public class GUI extends JFrame {
         dialog.setVisible(true);
     }
 
-    private void createNutritionPlan() {
-        CreateNutritionPlanDialog dialog = new CreateNutritionPlanDialog(this);
-        dialog.setVisible(true);
-    }
-
     private void saveData() {
         String data = outputTextArea.getText();
         JFileChooser fileChooser = new JFileChooser();
