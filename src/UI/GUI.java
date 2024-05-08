@@ -2,11 +2,9 @@ package UI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import UI.dialog.CalculateLTHRDialog;
 import UI.dialog.CalculateTSSDialog;
 import UI.dialog.CreateTrainingPlanDialog;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -89,6 +87,11 @@ public class GUI extends JFrame {
 
     private void createTrainingPlan() {
         CreateTrainingPlanDialog dialog = new CreateTrainingPlanDialog(this);
+        dialog.setVisible(true);
+    }
+
+    private void createNutritionPlan() {
+        CreateNutritionPlanDialog dialog = new CreateNutritionPlanDialog(this);
         dialog.setVisible(true);
     }
 
