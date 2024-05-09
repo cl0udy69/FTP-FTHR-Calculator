@@ -181,6 +181,8 @@ public class CreateTrainingPlanDialog extends JDialog {
     }
 
     private void initializeRunningInputPanel(JPanel inputPanel) {
+        inputPanel.removeAll(); // Clear existing components
+        inputPanel.setLayout(new GridLayout(16, 2, 10, 10));
 
         dateField = new JTextField();
         durationField = new JTextField();

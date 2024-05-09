@@ -24,11 +24,9 @@
 
 package UI.methods;
 
+import UI.GUI;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
-import UI.GUI;
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -50,6 +48,28 @@ public class CreateNutritionPlanDialog extends JDialog {
 
         JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
         inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
+
+        String[] options = { "Gain Weight", "Lose Weight", "Improve Performance", "Track Nutrition", "Cycling",
+                "Running" };
+        int choice = JOptionPane.showOptionDialog(null, "Select One",
+                "Choose Objective",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        if (choice == JOptionPane.CLOSED_OPTION) {
+            dispose();
+            return; // User closed the dialog
+        }
+
+        if (options[choice].equals("Cycling")) {
+            initializeCyclingNutritionInputPanel(inputPanel);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Coming Soon!",
+                    "Feature in Development", JOptionPane.WARNING_MESSAGE);
+            dispose();
+        }
+    }
+
+    private void initializeCyclingNutritionInputPanel(JPanel inputPanel) {
 
         JLabel dateLabel = new JLabel("Date: ");
         dateField = new JTextField();
@@ -90,6 +110,7 @@ public class CreateNutritionPlanDialog extends JDialog {
 
         add(inputPanel, BorderLayout.CENTER);
         add(createButton, BorderLayout.SOUTH);
+
     }
 
     private void createNutritionCycling() {
