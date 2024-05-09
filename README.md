@@ -16,20 +16,24 @@ Welcome to Propel! Propel is a Java-based fitness and nutrition management appli
    - LTHR is the heart rate at which your body produces lactate faster than it can clear it. It's a valuable metric for setting training zones.
    - Click on the "Calculate LTHR" button to open a dialog for calculating your LTHR.
 
-4. **Create Training Plan:**
+4. **Calculate Training Zones**
+   - Training zones are an extremely important training metric in any endurance sport. Use this feature to calculate cycling/running training zones.
+   - Click on either "Calculate FTP" or "Calculate LTHR" to begin the calculation
+
+5. **Create Training Plan:**
    - Planning is essential for achieving fitness goals. Use this feature to create personalized training plans based on your objectives and current fitness level.
    - Click on the "Create Training Plan" button to access the training plan creation interface.
 
-5. **Create Nutrition Plan:**
+6. **Create Nutrition Plan:**
    - Proper nutrition is vital for supporting your training efforts and maintaining overall health. Use this feature to create nutrition plans tailored to your dietary needs and fitness goals.
    - Click on the "Create Nutrition Plan" button to access the nutrition plan creation interface.
 
-6. **Save and Load Data:**
+7. **Save and Load Data:**
    - You can save your workout data or nutrition plans for future reference or share them with others.
    - Use the "Save Data" button to save the current data displayed in the text area.
    - Use the "Load Data" button to load previously saved data into the text area.
 
-7. **Clear Text Field:**
+8. **Clear Text Field:**
    - Need a clean slate? Use this feature to clear the text area where output and data are displayed.
    - Click on the "Clear Text Field" button to clear the text area.
 
