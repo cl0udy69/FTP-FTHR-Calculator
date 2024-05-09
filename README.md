@@ -67,9 +67,10 @@ If you encounter any issues while using Propel or have any questions or suggesti
 
 ## Acknowledgements:
 
-Propel was created with love and dedication by HelevtiaLabs. We would like to extend our gratitude to the developers of the libraries and frameworks used in this project for their invaluable contributions.
+Propel was created with love and dedication by HelvetiaLabs. We would like to extend our gratitude to the developers of the libraries and frameworks used in this project for their invaluable contributions.
 
 Thank you for choosing Propel to support your fitness and nutrition journey. We hope you find it helpful and empowering. Stay motivated and keep pushing your limits!
 
 Happy training,
+
 HelvetiaLabs
