@@ -25,10 +25,9 @@
 package UI.methods;
 
 import UI.GUI;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.awt.event.*;
 
 public class CreateNutritionPlanDialog extends JDialog {
     private JTextField dateField, weightField, heightField, calorieField, carbField,
@@ -48,7 +47,7 @@ public class CreateNutritionPlanDialog extends JDialog {
 
         JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
         inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
-
+        
         String[] options = { "Gain Weight", "Lose Weight", "Improve Performance", "Track Nutrition", "Cycling",
                 "Running" };
         int choice = JOptionPane.showOptionDialog(null, "Select One",
@@ -60,7 +59,18 @@ public class CreateNutritionPlanDialog extends JDialog {
         }
 
         if (options[choice].equals("Cycling")) {
-            initializeCyclingNutritionInputPanel(inputPanel);
+            String[] cyclingOptions = {"General", "Training Ride"};
+            int cyclingChoice = JOptionPane.showOptionDialog(null, "Select One", "Choose Cycling Type",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, cyclingOptions,
+                    cyclingOptions[0]);
+            if (cyclingOptions[cyclingChoice].equals("General")) {
+                initializeGeneralCyclingNutritionInputPanel(inputPanel);
+            } else if (cyclingOptions[cyclingChoice].equals("Training Ride")){
+                JOptionPane.showMessageDialog(this,
+                    "Coming Soon!",
+                    "Feature in Development", JOptionPane.WARNING_MESSAGE);
+            dispose();
+            }
         } else {
             JOptionPane.showMessageDialog(this,
                     "Coming Soon!",
@@ -69,8 +79,7 @@ public class CreateNutritionPlanDialog extends JDialog {
         }
     }
 
-    private void initializeCyclingNutritionInputPanel(JPanel inputPanel) {
-
+    private void initializeGeneralCyclingNutritionInputPanel(JPanel inputPanel) {
         JLabel dateLabel = new JLabel("Date: ");
         dateField = new JTextField();
         JLabel weightLabel = new JLabel("Weight: ");
