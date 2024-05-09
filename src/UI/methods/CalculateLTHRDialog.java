@@ -79,7 +79,7 @@ public class CalculateLTHRDialog extends JDialog {
 
             int lthr = (int) (heartRate * 0.95);
             StringBuilder calculateLTHR = new StringBuilder();
-            calculateLTHR.append("Lactate Threshold Heartrate: " + lthr);
+            calculateLTHR.append("Lactate Threshold Heartrate: " + lthr + "\n");
             calculateLTHR.append("Zone 1: " + (int) (lthr * 0) + " - " + (int) (lthr * 0.81) + "\n");
             calculateLTHR.append("Zone 2: " + (int) (lthr * 0.81) + " - " + (int) (lthr * 0.89) + "\n");
             calculateLTHR.append("Zone 3: " + (int) (lthr * 0.90) + " - " + (int) (lthr * 0.93) + "\n");
