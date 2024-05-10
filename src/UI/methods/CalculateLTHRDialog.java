@@ -1,10 +1,9 @@
 package UI.methods;
 
 import UI.GUI;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.awt.event.*;
 
 public class CalculateLTHRDialog extends JDialog {
     private JTextField heartRateField;

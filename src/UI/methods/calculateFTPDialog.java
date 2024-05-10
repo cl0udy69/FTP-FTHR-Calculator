@@ -1,11 +1,9 @@
 package UI.methods;
 
 import UI.GUI;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.awt.event.*;
-
 public class calculateFTPDialog extends JDialog {
     private JTextField powerField;
     private JButton calculateButton;
@@ -17,16 +15,18 @@ public class calculateFTPDialog extends JDialog {
         setSize(400, 150);
         setLocationRelativeTo(parentGUI);
         setLayout(new BorderLayout());
-
+    
         this.parentGUI = parentGUI;
-
+    
         JPanel inputPanel = new JPanel(new GridLayout(2, 2, 5, 5));
         inputPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+    
+        initializeFTPInputPanel(inputPanel);
+    
         calculateButton = new JButton("Calculate");
         calculateButton.addActionListener(e -> calculateFTP());
         JScrollPane scrollPane = new JScrollPane(inputPanel);
-
+    
         add(scrollPane, BorderLayout.CENTER);
         add(calculateButton, BorderLayout.SOUTH);
     }
