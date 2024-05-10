@@ -50,7 +50,7 @@ public class calculateFTPDialog extends JDialog {
 
             int FTP = (int) (power * 0.95);
             StringBuilder calculateFTP = new StringBuilder();
-            calculateFTP.append("Functional Threshold Power: " + power +"\n");
+            calculateFTP.append("Functional Threshold Power: " + FTP +"\n");
             calculateFTP.append("Zone 1: " + (int) (FTP * 0) + " - " + (int) (FTP * 0.55) + "\n");
             calculateFTP.append("Zone 2: " + (int) (FTP * 0.55) + " - " + (int) (FTP * 0.75) + "\n");
             calculateFTP.append("Zone 3: " + (int) (FTP * 0.75) + " - " + (int) (FTP * 0.87) + "\n");
