@@ -1,10 +1,9 @@
 package UI.methods;
 
 import UI.GUI;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.awt.event.*;
 
 public class CreateTrainingPlanDialog extends JDialog {
     private JTextField durationField, distanceField, avgPowerField, avgHeartRateField, avgCadenceField,
@@ -158,9 +157,9 @@ public class CreateTrainingPlanDialog extends JDialog {
             planDetails.append("Date: ").append(date).append("\n");
             planDetails.append("Duration (minutes): ").append(duration).append("\n");
             planDetails.append("Distance (if desired): ").append(distance).append("\n");
-            planDetails.append("Average Estimated Power: ").append(avgPower + "W").append("\n");
-            planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate + "BPM").append("\n");
-            planDetails.append("Average Cadence: ").append(avgCadence + "RPM").append("\n");
+            planDetails.append("Average Estimated Power: ").append(avgPower).append("\n");
+            planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate).append("\n");
+            planDetails.append("Average Cadence: ").append(avgCadence).append("\n");
             planDetails.append("Interval Zones: ").append(intervalZones).append("\n");
             planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
             planDetails.append("Heart Rate Intervals: ").append(heartRateIntervals).append("\n");
@@ -202,6 +201,7 @@ public class CreateTrainingPlanDialog extends JDialog {
         inputPanel.add(new JLabel("Average Estimated Pace:"));
         inputPanel.add(avgPaceField);
         inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
+        inputPanel.add(avgHeartRateField);
         inputPanel.add(new JLabel("Interval Zones:"));
         inputPanel.add(intervalZonesField);
         inputPanel.add(new JLabel("Interval Workout:"));
@@ -228,7 +228,7 @@ public class CreateTrainingPlanDialog extends JDialog {
             planDetails.append("Date: ").append(date).append("\n");
             planDetails.append("Duration (minutes): ").append(duration).append("\n");
             planDetails.append("Distance (if desired): ").append(distance).append("\n");
-            planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate + "BPM").append("\n");
+            planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate).append("\n");
             planDetails.append("Average Estimated Pace: ").append(avgPace).append("\n");
             planDetails.append("Interval Zones: ").append(intervalZones).append("\n");
             planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
