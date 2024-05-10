@@ -67,14 +67,14 @@ public class CreateTrainingPlanDialog extends JDialog {
         avgHeartRateField = new JTextField();
         JLabel avgCadenceLabel = new JLabel("Average Cadence:");
         avgCadenceField = new JTextField();
-        JLabel intervalZonesLabel = new JLabel("Interval Zones:");
-        intervalZonesField = new JTextField();
-        JLabel intervalWorkoutLabel = new JLabel("Interval Workout:");
-        intervalWorkoutField = new JTextField();
-        JLabel heartRateIntervalsLabel = new JLabel("Heart Rate Intervals:");
-        heartRateIntervalsField = new JTextField();
-        JLabel cadenceIntervalWorkoutLabel = new JLabel("Cadence Interval Workout:");
-        cadenceIntervalWorkoutField = new JTextField();
+        // JLabel intervalZonesLabel = new JLabel("Interval Zones:");
+        // intervalZonesField = new JTextField();
+        // JLabel intervalWorkoutLabel = new JLabel("Interval Workout:");
+        // intervalWorkoutField = new JTextField();
+        // JLabel heartRateIntervalsLabel = new JLabel("Heart Rate Intervals:");
+        // heartRateIntervalsField = new JTextField();
+        // JLabel cadenceIntervalWorkoutLabel = new JLabel("Cadence Interval Workout:");
+        // cadenceIntervalWorkoutField = new JTextField();
 
         // Add sliders for intensity levels
         JLabel enduranceIntensityLabel = new JLabel("Endurance Intensity:");
@@ -112,14 +112,14 @@ public class CreateTrainingPlanDialog extends JDialog {
         inputPanel.add(avgHeartRateField);
         inputPanel.add(avgCadenceLabel);
         inputPanel.add(avgCadenceField);
-        inputPanel.add(intervalZonesLabel);
-        inputPanel.add(intervalZonesField);
-        inputPanel.add(intervalWorkoutLabel);
-        inputPanel.add(intervalWorkoutField);
-        inputPanel.add(heartRateIntervalsLabel);
-        inputPanel.add(heartRateIntervalsField);
-        inputPanel.add(cadenceIntervalWorkoutLabel);
-        inputPanel.add(cadenceIntervalWorkoutField);
+        // inputPanel.add(intervalZonesLabel);
+        // inputPanel.add(intervalZonesField);
+        // inputPanel.add(intervalWorkoutLabel);
+        // inputPanel.add(intervalWorkoutField);
+        // inputPanel.add(heartRateIntervalsLabel);
+        // inputPanel.add(heartRateIntervalsField);
+        // inputPanel.add(cadenceIntervalWorkoutLabel);
+        // inputPanel.add(cadenceIntervalWorkoutField);
 
         inputPanel.add(enduranceIntensityLabel);
         inputPanel.add(enduranceIntensitySlider);
@@ -139,10 +139,10 @@ public class CreateTrainingPlanDialog extends JDialog {
             int avgHeartRate = Integer.parseInt(avgHeartRateField.getText());
             int avgCadence = Integer.parseInt(avgCadenceField.getText());
 
-            String intervalZones = intervalZonesField.getText();
-            String intervalWorkout = intervalWorkoutField.getText();
-            String heartRateIntervals = heartRateIntervalsField.getText();
-            String cadenceIntervalWorkout = cadenceIntervalWorkoutField.getText();
+            // String intervalZones = intervalZonesField.getText();
+            // String intervalWorkout = intervalWorkoutField.getText();
+            // String heartRateIntervals = heartRateIntervalsField.getText();
+            // String cadenceIntervalWorkout = cadenceIntervalWorkoutField.getText();
             String distance = distanceField.getText();
             String date = dateField.getText();
 
@@ -160,10 +160,10 @@ public class CreateTrainingPlanDialog extends JDialog {
             planDetails.append("Average Estimated Power: ").append(avgPower).append("\n");
             planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate).append("\n");
             planDetails.append("Average Cadence: ").append(avgCadence).append("\n");
-            planDetails.append("Interval Zones: ").append(intervalZones).append("\n");
-            planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
-            planDetails.append("Heart Rate Intervals: ").append(heartRateIntervals).append("\n");
-            planDetails.append("Cadence Interval Workout: ").append(cadenceIntervalWorkout).append("\n");
+            // planDetails.append("Interval Zones: ").append(intervalZones).append("\n");
+            // planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
+            // planDetails.append("Heart Rate Intervals: ").append(heartRateIntervals).append("\n");
+            // planDetails.append("Cadence Interval Workout: ").append(cadenceIntervalWorkout).append("\n");
             planDetails.append("Endurance: ").append(enduranceIntensitySlider).append("\n");
             planDetails.append("Tempo: ").append(tempoIntensitySlider).append("\n");
             planDetails.append("VO2Max: ").append(vo2MaxIntensitySlider).append("\n");
@@ -202,13 +202,15 @@ public class CreateTrainingPlanDialog extends JDialog {
         inputPanel.add(avgPaceField);
         inputPanel.add(new JLabel("Average Estimated Heart Rate:"));
         inputPanel.add(avgHeartRateField);
-        inputPanel.add(new JLabel("Interval Zones:"));
-        inputPanel.add(intervalZonesField);
-        inputPanel.add(new JLabel("Interval Workout:"));
-        inputPanel.add(intervalWorkoutField);
-        inputPanel.add(avgHeartRateField);
-        inputPanel.add(new JLabel("Heart Rate Intervals:"));
-        inputPanel.add(heartRateIntervalsField);
+        // inputPanel.add(new JLabel("Interval Zones:"));
+        // inputPanel.add(intervalZonesField);
+        // inputPanel.add(new JLabel("Interval Workout:"));
+        // inputPanel.add(intervalWorkoutField);
+        // inputPanel.add(avgHeartRateField);
+        // inputPanel.add(new JLabel("Heart Rate Intervals:"));
+        // inputPanel.add(heartRateIntervalsField);
+
+
     }
 
     private void createTrainingRun() {
@@ -216,9 +218,9 @@ public class CreateTrainingPlanDialog extends JDialog {
             int duration = Integer.parseInt(durationField.getText());
             int avgHeartRate = Integer.parseInt(avgHeartRateField.getText());
 
-            String intervalZones = intervalZonesField.getText();
-            String intervalWorkout = intervalWorkoutField.getText();
-            String heartRateIntervals = heartRateIntervalsField.getText();
+            // String intervalZones = intervalZonesField.getText();
+            // String intervalWorkout = intervalWorkoutField.getText();
+            // String heartRateIntervals = heartRateIntervalsField.getText();
             String distance = distanceField.getText();
             String avgPace = avgPaceField.getText();
             String date = dateField.getText();
@@ -230,9 +232,9 @@ public class CreateTrainingPlanDialog extends JDialog {
             planDetails.append("Distance (if desired): ").append(distance).append("\n");
             planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate).append("\n");
             planDetails.append("Average Estimated Pace: ").append(avgPace).append("\n");
-            planDetails.append("Interval Zones: ").append(intervalZones).append("\n");
-            planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
-            planDetails.append("Heart Rate Intervals: ").append(heartRateIntervals).append("\n");
+            // planDetails.append("Interval Zones: ").append(intervalZones).append("\n");
+            // planDetails.append("Interval Workout: ").append(intervalWorkout).append("\n");
+            // planDetails.append("Heart Rate Intervals: ").append(heartRateIntervals).append("\n");
 
             parentGUI.getOutputTextArea().append(planDetails.toString());
             JOptionPane.showMessageDialog(this, "Training plan created successfully!", "Success",
