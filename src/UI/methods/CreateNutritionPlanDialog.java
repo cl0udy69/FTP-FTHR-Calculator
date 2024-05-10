@@ -38,48 +38,53 @@ public class CreateNutritionPlanDialog extends JDialog {
     private GUI parentGUI;
 
     public CreateNutritionPlanDialog(GUI parentGUI) {
-        super(parentGUI, "Create Nutrition Plan", true);
-        setSize(450, 500);
-        setLocationRelativeTo(parentGUI);
-        setLayout(new BorderLayout());
+    super(parentGUI, "Create Nutrition Plan", true);
+    setSize(450, 500);
+    setLocationRelativeTo(parentGUI);
+    setLayout(new BorderLayout());
 
-        this.parentGUI = parentGUI;
+    this.parentGUI = parentGUI;
 
-        JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
-        inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
-        
-        String[] options = { "Gain Weight", "Lose Weight", "Improve Performance", "Track Nutrition", "Cycling",
-                "Running" };
-        int choice = JOptionPane.showOptionDialog(null, "Select One",
-                "Choose Objective",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-        if (choice == JOptionPane.CLOSED_OPTION) {
+    JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
+    inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
+
+    String[] options = { "Gain Weight", "Lose Weight", "Improve Performance", "Track Nutrition", "Cycling",
+            "Running" };
+    int choice = JOptionPane.showOptionDialog(null, "Select One", "Choose Objective",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+    if (choice == JOptionPane.CLOSED_OPTION) {
+        dispose();
+        return; // User closed the dialog
+    }
+
+    if (options[choice].equals("Cycling")) {
+        String[] cyclingOptions = { "General", "Training Ride" };
+        int cyclingChoice = JOptionPane.showOptionDialog(null, "Select One", "Choose Cycling Type",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, cyclingOptions,
+                cyclingOptions[0]);
+
+        if (cyclingChoice == JOptionPane.CLOSED_OPTION) {
             dispose();
             return; // User closed the dialog
+        } else if (cyclingOptions[cyclingChoice].equals("General")) {
+            initializeGeneralCyclingNutritionInputPanel(inputPanel);
+        } else if (cyclingOptions[cyclingChoice].equals("Training Ride")) {
+            JOptionPane.showMessageDialog(this, "Coming Soon!", "Feature in Development",
+                    JOptionPane.WARNING_MESSAGE);
+            dispose();
+            return;
         }
 
-        if (options[choice].equals("Cycling")) {
-            String[] cyclingOptions = {"General", "Training Ride"};
-            int cyclingChoice = JOptionPane.showOptionDialog(null, "Select One", "Choose Cycling Type",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, cyclingOptions,
-                    cyclingOptions[0]);
-            
-                    if (cyclingOptions[cyclingChoice].equals("General")) {
-                initializeGeneralCyclingNutritionInputPanel(inputPanel);
-            } else if (cyclingOptions[cyclingChoice].equals("Training Ride")){
-                JOptionPane.showMessageDialog(this,
-                    "Coming Soon!",
-                    "Feature in Development", JOptionPane.WARNING_MESSAGE);
-            dispose();
-            }
-       
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Coming Soon!",
-                    "Feature in Development", JOptionPane.WARNING_MESSAGE);
-            dispose();
-        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Coming Soon!", "Feature in Development",
+                JOptionPane.WARNING_MESSAGE);
+        dispose();
+        return;
     }
+
+    add(inputPanel, BorderLayout.CENTER);
+    setVisible(true); // Make the dialog visible after adding components
+}
 
     private void initializeGeneralCyclingNutritionInputPanel(JPanel inputPanel) {
         inputPanel.removeAll();
@@ -120,7 +125,7 @@ public class CreateNutritionPlanDialog extends JDialog {
         inputPanel.add(ironField);
 
         createButton = new JButton("Create");
-        createButton.addActionListener(e -> createNutritionCycling());
+        createButton.addActionListener(e -> createNutritionPlan());
 
         add(inputPanel, BorderLayout.CENTER);
         add(createButton, BorderLayout.SOUTH);
