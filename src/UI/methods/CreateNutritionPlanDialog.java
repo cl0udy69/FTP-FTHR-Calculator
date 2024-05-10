@@ -63,7 +63,8 @@ public class CreateNutritionPlanDialog extends JDialog {
             int cyclingChoice = JOptionPane.showOptionDialog(null, "Select One", "Choose Cycling Type",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, cyclingOptions,
                     cyclingOptions[0]);
-            if (cyclingOptions[cyclingChoice].equals("General")) {
+            
+                    if (cyclingOptions[cyclingChoice].equals("General")) {
                 initializeGeneralCyclingNutritionInputPanel(inputPanel);
             } else if (cyclingOptions[cyclingChoice].equals("Training Ride")){
                 JOptionPane.showMessageDialog(this,
@@ -81,6 +82,9 @@ public class CreateNutritionPlanDialog extends JDialog {
     }
 
     private void initializeGeneralCyclingNutritionInputPanel(JPanel inputPanel) {
+        inputPanel.removeAll();
+        inputPanel.setLayout(new GridLayout(16, 2, 10, 10));
+        
         JLabel dateLabel = new JLabel("Date: ");
         dateField = new JTextField();
         JLabel weightLabel = new JLabel("Weight: ");
@@ -156,7 +160,9 @@ public class CreateNutritionPlanDialog extends JDialog {
         }
     }
 
-    private void initializeTrainingRideCyclingNutritionInputPanel(JPanel inputPanel) {
+    // private void initializeTrainingRideCyclingNutritionInputPanel(JPanel inputPanel) {
+    //     inputPanel.removeAll();
+    //     inputPanel.setLayout(new GridLayout(16, 2, 10, 10));
         
-    }
+    // }
 }
