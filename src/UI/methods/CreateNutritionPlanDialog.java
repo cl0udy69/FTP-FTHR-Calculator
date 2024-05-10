@@ -71,6 +71,7 @@ public class CreateNutritionPlanDialog extends JDialog {
                     "Feature in Development", JOptionPane.WARNING_MESSAGE);
             dispose();
             }
+       
         } else {
             JOptionPane.showMessageDialog(this,
                     "Coming Soon!",
@@ -122,7 +123,7 @@ public class CreateNutritionPlanDialog extends JDialog {
 
     }
 
-    private void createNutritionCycling() {
+    private void createNutritionPlan() {
         try {
             int calorie = Integer.parseInt(calorieField.getText());
             int carb = Integer.parseInt(carbField.getText());
@@ -153,5 +154,9 @@ public class CreateNutritionPlanDialog extends JDialog {
             JOptionPane.showMessageDialog(parentGUI, "Please enter valid numbers for all fields.", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void initializeTrainingRideCyclingNutritionInputPanel(JPanel inputPanel) {
+        
     }
 }
