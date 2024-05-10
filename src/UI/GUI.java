@@ -1,16 +1,15 @@
 package UI;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
 import UI.methods.CalculateLTHRDialog;
 import UI.methods.CalculateTSSDialog;
 import UI.methods.CreateNutritionPlanDialog;
 import UI.methods.CreateTrainingPlanDialog;
-
+import UI.methods.calculateFTPDialog;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class GUI extends JFrame {
     private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, createTrainingPlanButton,
@@ -76,9 +75,8 @@ public class GUI extends JFrame {
     }
 
     private void calculateFTP() {
-        // Implement FTP calculation logic here
-        // For demonstration, let's just display a message
-        JOptionPane.showMessageDialog(this, "FTP calculation will be implemented here.");
+        calculateFTPDialog dialog = new calculateFTPDialog(this);
+        dialog.setVisible(true);
     }
 
     private void calculateTSS() {
