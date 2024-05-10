@@ -1,6 +1,6 @@
 # Propel: Fitness and Nutrition Management Application
 
-Welcome to Propel! Propel is a Java-based fitness and nutrition management application designed to assist users in various aspects of their fitness journey, including calculating performance metrics, creating training plans, and managing nutrition plans. This README will guide you through the features of the application and provide instructions on how to use them effectively.
+Welcome to Propel by HelvatiaLabs! Propel is a Java-based fitness and nutrition management application designed to assist users in various aspects of their fitness journey, including calculating performance metrics, creating training plans, and managing nutrition plans. This README will guide you through the features of the application and provide instructions on how to use them effectively.
 
 ## Features:
 
