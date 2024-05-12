@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder;
 
 public class CreateTrainingPlanDialog extends JDialog {
     private JTextField durationField, distanceField, avgPowerField, avgHeartRateField, avgCadenceField,
-            intervalZonesField, intervalWorkoutField, heartRateIntervalsField, cadenceIntervalWorkoutField,
+            // intervalZonesField, intervalWorkoutField, heartRateIntervalsField, cadenceIntervalWorkoutField,
             avgPaceField, dateField;
     private JButton createButton;
     private JComboBox<String> objectiveComboBox; // New JComboBox for key objective selection
@@ -188,9 +188,9 @@ public class CreateTrainingPlanDialog extends JDialog {
         distanceField = new JTextField();
         avgPaceField = new JTextField();
         avgHeartRateField = new JTextField();
-        intervalZonesField = new JTextField();
-        intervalWorkoutField = new JTextField();
-        heartRateIntervalsField = new JTextField();
+        // intervalZonesField = new JTextField();
+        // intervalWorkoutField = new JTextField();
+        // heartRateIntervalsField = new JTextField();
 
         inputPanel.add(new JLabel("Date: "));
         inputPanel.add(dateField);
