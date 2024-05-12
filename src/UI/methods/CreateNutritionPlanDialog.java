@@ -31,7 +31,8 @@ import javax.swing.border.EmptyBorder;
 
 public class CreateNutritionPlanDialog extends JDialog {
     private JTextField dateField, weightField, heightField, calorieField, carbField,
-            sugarField, fatField, ironField;
+            sugarField, fatField, ironField, caloriesPerHourField, carbsPerHourField,
+            sugarPerHourField, fatPerHourField, ironPerHourField;
     private JButton createButton;
     private JComboBox<String> objectiveComboBox;
 
@@ -165,9 +166,81 @@ public class CreateNutritionPlanDialog extends JDialog {
         }
     }
 
-    // private void initializeTrainingRideCyclingNutritionInputPanel(JPanel inputPanel) {
-    //     inputPanel.removeAll();
-    //     inputPanel.setLayout(new GridLayout(16, 2, 10, 10));
-        
-    // }
+     private void initializeTrainingRideCyclingNutritionInputPanel(JPanel inputPanel) {
+         inputPanel.removeAll();
+         inputPanel.setLayout(new GridLayout(16, 2, 10, 10));
+
+         JLabel dateLabel = new JLabel("Date: ");
+        dateField = new JTextField();
+        JLabel weightLabel = new JLabel("Weight: ");
+        weightField = new JTextField();
+        JLabel heightLabel = new JLabel("Height: ");
+        heightField = new JTextField();
+        JLabel caloriesPerHourLabel = new JLabel("Calories per Hour: ");
+        caloriesPerHourField = new JTextField();
+        JLabel carbsPerHourLabel = new JLabel("Carbs per Hour: ");
+        carbsPerHourField = new JTextField();
+        JLabel sugarPerHourLabel = new JLabel("Sugar per Hour: ");
+        sugarPerHourField = new JTextField();
+        JLabel fatPerHourLabel = new JLabel("Fat per Hour: ");
+        fatPerHourField = new JTextField();
+        JLabel ironPerHourLabel = new JLabel("Iron per Hour: ");
+        ironPerHourField = new JTextField();
+
+        inputPanel.add(dateLabel);
+        inputPanel.add(dateField);
+        inputPanel.add(weightLabel);
+        inputPanel.add(weightField);
+        inputPanel.add(heightLabel);
+        inputPanel.add(heightField);
+        inputPanel.add(caloriesPerHourLabel);
+        inputPanel.add(caloriesPerHourField);
+        inputPanel.add(carbsPerHourLabel);
+        inputPanel.add(carbsPerHourField);
+        inputPanel.add(sugarPerHourLabel);
+        inputPanel.add(sugarPerHourField);
+        inputPanel.add(fatPerHourLabel);
+        inputPanel.add(fatPerHourField);
+        inputPanel.add(ironPerHourLabel);
+        inputPanel.add(ironPerHourField);
+
+        createButton = new JButton("Create");
+        createButton.addActionListener(e -> createNutritionPlan());
+
+        add(inputPanel, BorderLayout.CENTER);
+        add(createButton, BorderLayout.SOUTH);
+    }
+
+    private void createTrainingRideNutritionPlan() {
+        try {
+            int caloriesPerHour = Integer.parseInt(caloriesPerHourField.getText());
+            int carbsPerHour = Integer.parseInt(carbsPerHourField.getText());
+            int sugarPerHour = Integer.parseInt(sugarPerHourField.getText());
+            int fatPerHour = Integer.parseInt(fatPerHourField.getText());
+            int ironPerHour = Integer.parseInt(ironPerHourField.getText());
+
+            String date = dateField.getText();
+            String weight = weightField.getText();
+            String height = heightField.getText();
+
+            StringBuilder planDetails = new StringBuilder();
+            planDetails.append("Nutrition Plan: \n");
+            planDetails.append("Date: ").append(date).append("\n");
+            planDetails.append("Weight: ").append(weight).append("\n");
+            planDetails.append("Height: ").append(height).append("\n");
+            planDetails.append("Calories per Hour:").append(caloriesPerHour).append("\n");
+            planDetails.append("Carbs per Hour: ").append(carbsPerHour).append("\n");
+            planDetails.append("Sugar per Hour: ").append(sugarPerHour).append("\n");
+            planDetails.append("Fat per Hour: ").append(fatPerHour).append("\n");
+            planDetails.append("Iron per Hour: ").append(ironPerHour).append("\n");
+
+            parentGUI.getOutputTextArea().append(planDetails.toString());
+            JOptionPane.showMessageDialog(parentGUI, "Nutrition plan created successfully!", "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+            dispose(); // Dispose the dialog after creating the plan
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(parentGUI, "Please enter valid numbers for all fields.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
