@@ -11,18 +11,22 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class GUI extends JFrame {
+public class GUI extends JFrame { // Define a class named GUI which extends JFrame
+    // Declare buttons and text area
     private JButton calculateFTPButton, calculateTSSButton, calculateLTHRButton, createTrainingPlanButton,
-            saveDataButton, loadDataButton, clearButton, createNutritionPlanButton; // Added createNutritionPlanButton
+            saveDataButton, loadDataButton, clearButton, createNutritionPlanButton;
     private JTextArea outputTextArea;
 
+    // Constructor
     public GUI() {
-        setTitle("Propel");
-        setSize(800, 400);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setLayout(new BorderLayout());
+        setTitle("Propel"); // Set window title
+        setSize(800, 400); // Set window size
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Set default close operation
+        setLayout(new BorderLayout()); // Set layout for the frame
 
-        initializeComponents();
+        initializeComponents(); // Initialize UI components
+
+        // Add window listener to prompt for saving before exit
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -30,75 +34,87 @@ public class GUI extends JFrame {
             }
         });
 
-        setVisible(true);
+        setVisible(true); // Set window visibility
     }
 
+    // Method to initialize UI components
     private void initializeComponents() {
+        // Create button panel
         JPanel buttonPanel = new JPanel(new GridLayout(2, 5, 20, 20));
         buttonPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
+        // Initialize buttons
         calculateFTPButton = new JButton("Calculate FTP");
         calculateTSSButton = new JButton("Calculate TSS");
         calculateLTHRButton = new JButton("Calculate LTHR");
         createTrainingPlanButton = new JButton("Create Training Plan");
-        createNutritionPlanButton = new JButton("Create Nutrition Plan"); // Added createNutritionPlanButton
+        createNutritionPlanButton = new JButton("Create Nutrition Plan");
         saveDataButton = new JButton("Save Data");
         loadDataButton = new JButton("Load Data");
         clearButton = new JButton("Clear Text Field");
 
+        // Add buttons to button panel
         buttonPanel.add(calculateFTPButton);
         buttonPanel.add(calculateTSSButton);
         buttonPanel.add(calculateLTHRButton);
         buttonPanel.add(createTrainingPlanButton);
-        buttonPanel.add(createNutritionPlanButton); // Added createNutritionPlanButton
+        buttonPanel.add(createNutritionPlanButton);
         buttonPanel.add(saveDataButton);
         buttonPanel.add(loadDataButton);
         buttonPanel.add(clearButton);
 
+        // Initialize text area
         outputTextArea = new JTextArea();
         outputTextArea.setEditable(false);
         outputTextArea.setFont(new Font("Montserrat", Font.PLAIN, 16));
         JScrollPane scrollPane = new JScrollPane(outputTextArea);
 
+        // Add components to frame
         add(buttonPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 
+        // Add action listeners to buttons
         calculateFTPButton.addActionListener(e -> calculateFTP());
         calculateTSSButton.addActionListener(e -> calculateTSS());
         calculateLTHRButton.addActionListener(e -> calculateLTHR());
         createTrainingPlanButton.addActionListener(e -> createTrainingPlan());
-        createNutritionPlanButton.addActionListener(e -> createNutritionPlan()); // Added action listener for
-                                                                                 // createNutritionPlanButton
+        createNutritionPlanButton.addActionListener(e -> createNutritionPlan());
         saveDataButton.addActionListener(e -> saveData());
         loadDataButton.addActionListener(e -> loadData());
         clearButton.addActionListener(e -> clearTextArea());
     }
 
+    // Method to handle Calculate FTP button click
     private void calculateFTP() {
         calculateFTPDialog dialog = new calculateFTPDialog(this);
         dialog.setVisible(true);
     }
 
+    // Method to handle Calculate TSS button click
     private void calculateTSS() {
         CalculateTSSDialog dialog = new CalculateTSSDialog(this);
         dialog.setVisible(true);
     }
 
+    // Method to handle Calculate LTHR button click
     private void calculateLTHR() {
         CalculateLTHRDialog dialog = new CalculateLTHRDialog(this);
         dialog.setVisible(true);
     }
 
+    // Method to handle Create Training Plan button click
     private void createTrainingPlan() {
         CreateTrainingPlanDialog dialog = new CreateTrainingPlanDialog(this);
         dialog.setVisible(true);
     }
 
+    // Method to handle Create Nutrition Plan button click
     private void createNutritionPlan() {
         CreateNutritionPlanDialog dialog = new CreateNutritionPlanDialog(this);
         dialog.setVisible(true);
     }
-    
+
+    // Method to handle Save Data button click
     private void saveData() {
         String data = outputTextArea.getText();
         JFileChooser fileChooser = new JFileChooser();
@@ -115,6 +131,7 @@ public class GUI extends JFrame {
         }
     }
 
+    // Method to handle Load Data button click
     private void loadData() {
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(this);
@@ -130,10 +147,12 @@ public class GUI extends JFrame {
         }
     }
 
+    // Method to clear text area
     private void clearTextArea() {
         outputTextArea.setText("");
     }
 
+    // Method to prompt user to save before exit
     private void promptToSaveBeforeExit() {
         int option = JOptionPane.showConfirmDialog(this,
                 "Do you want to save your data before exiting?", "Save Data",
@@ -146,10 +165,12 @@ public class GUI extends JFrame {
         }
     }
 
+    // Getter for outputTextArea
     public JTextArea getOutputTextArea() {
         return outputTextArea;
     }
 
+    // Main method to launch the GUI
     public static void main(String[] args) {
         SwingUtilities.invokeLater(GUI::new);
     }

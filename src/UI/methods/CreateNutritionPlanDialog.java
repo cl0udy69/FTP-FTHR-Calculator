@@ -30,6 +30,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class CreateNutritionPlanDialog extends JDialog {
+    // Declare private variables for components
     private JTextField dateField, weightField, heightField, calorieField, carbField,
             sugarField, fatField, ironField, caloriesPerHourField, carbsPerHourField,
             sugarPerHourField, fatPerHourField, ironPerHourField, currentWeightField,
@@ -41,56 +42,63 @@ public class CreateNutritionPlanDialog extends JDialog {
 
     private GUI parentGUI;
 
+    // Constructor
     public CreateNutritionPlanDialog(GUI parentGUI) {
-    super(parentGUI, "Create Nutrition Plan", true);
-    setSize(450, 500);
-    setLocationRelativeTo(parentGUI);
-    setLayout(new BorderLayout());
+        super(parentGUI, "Create Nutrition Plan", true); // Call parent constructor with title and modality
+        setSize(450, 500); // Set dialog size
+        setLocationRelativeTo(parentGUI); // Set dialog location relative to parent GUI
+        setLayout(new BorderLayout()); // Set layout for the dialog
 
-    this.parentGUI = parentGUI;
+        this.parentGUI = parentGUI; // Assign parent GUI
 
-    JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
-    inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
+        JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10)); // Create input panel
+        inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30)); // Add empty border for spacing
 
-    String[] options = { "Gain Weight", "Lose Weight", "Improve Performance", "Track Nutrition", "Cycling",
-            "Running" };
-    int choice = JOptionPane.showOptionDialog(null, "Select One", "Choose Objective",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-    if (choice == JOptionPane.CLOSED_OPTION) {
-        dispose();
-        return; // User closed the dialog
-    }
-
-    if (options[choice].equals("Cycling")) {
-        String[] cyclingOptions = { "General", "Training Ride" };
-        int cyclingChoice = JOptionPane.showOptionDialog(null, "Select One", "Choose Cycling Type",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, cyclingOptions,
-                cyclingOptions[0]);
-
-        if (cyclingChoice == JOptionPane.CLOSED_OPTION) {
+        // Display option dialog to choose objective
+        String[] options = { "Gain Weight", "Lose Weight", "Improve Performance", "Track Nutrition", "Cycling",
+                "Running" };
+        int choice = JOptionPane.showOptionDialog(null, "Select One", "Choose Objective",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        if (choice == JOptionPane.CLOSED_OPTION) {
             dispose();
             return; // User closed the dialog
-        } else if (cyclingOptions[cyclingChoice].equals("General")) {
-            initializeGeneralCyclingNutritionInputPanel(inputPanel);
-        } else if (cyclingOptions[cyclingChoice].equals("Training Ride")) {
-            initializeTrainingRideCyclingNutritionInputPanel(inputPanel);
         }
 
-    } else {
-        JOptionPane.showMessageDialog(this, "Coming Soon!", "Feature in Development",
-                JOptionPane.WARNING_MESSAGE);
-        dispose();
-        return;
+        // Check selected objective and initialize input panel accordingly
+        if (options[choice].equals("Cycling")) {
+            // Display another option dialog to choose cycling type
+            String[] cyclingOptions = { "General", "Training Ride" };
+            int cyclingChoice = JOptionPane.showOptionDialog(null, "Select One", "Choose Cycling Type",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, cyclingOptions,
+                    cyclingOptions[0]);
+
+            if (cyclingChoice == JOptionPane.CLOSED_OPTION) {
+                dispose();
+                return; // User closed the dialog
+            } else if (cyclingOptions[cyclingChoice].equals("General")) {
+                initializeGeneralCyclingNutritionInputPanel(inputPanel);
+            } else if (cyclingOptions[cyclingChoice].equals("Training Ride")) {
+                initializeTrainingRideCyclingNutritionInputPanel(inputPanel);
+            }
+        } else {
+            // Show message for other options (like "Running") that are not yet implemented
+            JOptionPane.showMessageDialog(this, "Coming Soon!", "Feature in Development",
+                    JOptionPane.WARNING_MESSAGE);
+            dispose();
+            return;
+        }
+
+        // Add input panel to the dialog
+        add(inputPanel, BorderLayout.CENTER);
+        setVisible(true); // Make the dialog visible after adding components
     }
 
-    add(inputPanel, BorderLayout.CENTER);
-    setVisible(true); // Make the dialog visible after adding components
-}
-
+    // Method to initialize input panel for general cycling nutrition plan
     private void initializeGeneralCyclingNutritionInputPanel(JPanel inputPanel) {
-        inputPanel.removeAll();
-        inputPanel.setLayout(new GridLayout(16, 2, 10, 10));
-        
+        inputPanel.removeAll(); // Clear previous components
+        inputPanel.setLayout(new GridLayout(16, 2, 10, 10)); // Set layout for input panel
+
+        // Create labels and text fields for input
         JLabel dateLabel = new JLabel("Date: ");
         dateField = new JTextField();
         JLabel weightLabel = new JLabel("Weight: ");
@@ -108,6 +116,7 @@ public class CreateNutritionPlanDialog extends JDialog {
         JLabel ironLabel = new JLabel("Iron: ");
         ironField = new JTextField();
 
+        // Add labels and text fields to input panel
         inputPanel.add(dateLabel);
         inputPanel.add(dateField);
         inputPanel.add(weightLabel);
@@ -125,26 +134,31 @@ public class CreateNutritionPlanDialog extends JDialog {
         inputPanel.add(ironLabel);
         inputPanel.add(ironField);
 
+        // Create and configure Create button
         createButton = new JButton("Create");
         createButton.addActionListener(e -> createNutritionPlan());
 
+        // Add Create button to input panel
         add(inputPanel, BorderLayout.CENTER);
         add(createButton, BorderLayout.SOUTH);
-
     }
 
+    // Method to create nutrition plan
     private void createNutritionPlan() {
         try {
+            // Get inputs and convert to appropriate data types
             int calorie = Integer.parseInt(calorieField.getText());
             int carb = Integer.parseInt(carbField.getText());
             int sugar = Integer.parseInt(sugarField.getText());
             int fat = Integer.parseInt(fatField.getText());
             int iron = Integer.parseInt(ironField.getText());
 
+            // Get text inputs
             String date = dateField.getText();
             String weight = weightField.getText();
             String height = heightField.getText();
 
+            // Build plan details string
             StringBuilder planDetails = new StringBuilder();
             planDetails.append("Nutrition Plan: \n");
             planDetails.append("Date: ").append(date).append("\n");
@@ -156,11 +170,14 @@ public class CreateNutritionPlanDialog extends JDialog {
             planDetails.append("Fat: ").append(fat).append("\n");
             planDetails.append("Iron: ").append(iron).append("\n");
 
+            // Display plan details in parent GUI's output text area
             parentGUI.getOutputTextArea().append(planDetails.toString());
+            // Show success message
             JOptionPane.showMessageDialog(parentGUI, "Nutrition plan created successfully!", "Success",
                     JOptionPane.INFORMATION_MESSAGE);
             dispose(); // Dispose the dialog after creating the plan
         } catch (NumberFormatException e) {
+            // Show error message for invalid input
             JOptionPane.showMessageDialog(parentGUI, "Please enter valid numbers for all fields.", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
