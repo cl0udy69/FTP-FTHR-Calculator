@@ -8,9 +8,10 @@ import javax.swing.border.EmptyBorder;
 public class CreateTrainingPlanDialog extends JDialog { // Define a class named CreateTrainingPlanDialog which extends JDialog
     // Declare private variables for components
     private JTextField durationField, distanceField, avgPowerField, avgHeartRateField, avgCadenceField,
-            avgPaceField, dateField; // Declare text fields
+            avgPaceField, dateField, workoutNotesField; // Declare text fields
     private JButton createButton; // Declare button
     private JComboBox<String> objectiveComboBox; // Declare a combo box for selecting the key objective
+    private JSlider enduranceIntensitySlider, tempoIntensitySlider, vo2MaxIntensitySlider, recoveryIntensitySlider; // Declare a slider for selecting the intensity slider value
 
     private GUI parentGUI; // Reference to the parent GUI
 
@@ -70,6 +71,8 @@ public class CreateTrainingPlanDialog extends JDialog { // Define a class named 
         avgHeartRateField = new JTextField();
         JLabel avgCadenceLabel = new JLabel("Average Cadence:");
         avgCadenceField = new JTextField();
+        JLabel workoutNotesLabel = new JLabel("Workout Notes: ");
+        workoutNotesField = new JTextField();
 
         // Add sliders for intensity levels
         JLabel enduranceIntensityLabel = new JLabel("Endurance Intensity:");
@@ -90,9 +93,15 @@ public class CreateTrainingPlanDialog extends JDialog { // Define a class named 
         vo2MaxIntensitySlider.setPaintTicks(true);
         vo2MaxIntensitySlider.setPaintLabels(true);
 
+        JLabel recoveryIntensityLabel = new JLabel("Recovery Intensity: ");
+        JSlider recoveryIntensitySlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 5); // Default value: 5
+        recoveryIntensitySlider.setMajorTickSpacing(1);
+        recoveryIntensitySlider.setPaintTicks(true);
+        recoveryIntensitySlider.setPaintLabels(true);
+
         // Add JComboBox for key objective selection
         JLabel objectiveLabel = new JLabel("Key Objective:");
-        String[] objectives = { "Base", "Tempo", "Other" };
+        String[] objectives = { "Base", "Tempo", "Recovery", "Vo2Max", "Free Ride"};
         objectiveComboBox = new JComboBox<>(objectives);
 
         inputPanel.add(dateLabel);
@@ -107,6 +116,8 @@ public class CreateTrainingPlanDialog extends JDialog { // Define a class named 
         inputPanel.add(avgHeartRateField);
         inputPanel.add(avgCadenceLabel);
         inputPanel.add(avgCadenceField);
+        inputPanel.add(workoutNotesLabel);
+        inputPanel.add(workoutNotesField);
 
         inputPanel.add(enduranceIntensityLabel);
         inputPanel.add(enduranceIntensitySlider);
@@ -129,9 +140,15 @@ public class CreateTrainingPlanDialog extends JDialog { // Define a class named 
 
             String distance = distanceField.getText();
             String date = dateField.getText();
+            String workoutNotes = workoutNotesField.getText();
 
             // Get the selected item from the JComboBox
             String selectedObjective = (String) objectiveComboBox.getSelectedItem();
+
+            int enduranceIntensity = enduranceIntensitySlider.getValue();
+            int tempoIntensity = tempoIntensitySlider.getValue();
+            int vo2MaxIntensity = vo2MaxIntensitySlider.getValue();
+            int recoveryIntensity = recoveryIntensitySlider.getValue();
 
             StringBuilder planDetails = new StringBuilder();
             planDetails.append("Training Plan Details:\n");
@@ -142,6 +159,11 @@ public class CreateTrainingPlanDialog extends JDialog { // Define a class named 
             planDetails.append("Average Estimated Heart Rate: ").append(avgHeartRate).append("\n");
             planDetails.append("Average Cadence: ").append(avgCadence).append("\n");
             planDetails.append("Selected Objective: ").append(selectedObjective).append("\n");
+            planDetails.append("Endurance Intensity: ").append(enduranceIntensity).append("\n");
+            planDetails.append("Tempo Intensity: ").append(tempoIntensity).append("\n");
+            planDetails.append("VO2Max Intensity: ").append(vo2MaxIntensity).append("\n");
+            planDetails.append("Recovery Intensity: ").append(recoveryIntensity).append("\n");
+            planDetails.append("Workout Notes: ").append(workoutNotes).append("\n");
 
             parentGUI.getOutputTextArea().append(planDetails.toString());
             JOptionPane.showMessageDialog(this, "Training plan created successfully!", "Success",
