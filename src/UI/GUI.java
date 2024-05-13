@@ -4,6 +4,7 @@ import UI.methods.CalculateLTHRDialog;
 import UI.methods.CalculateTSSDialog;
 import UI.methods.CreateNutritionPlanDialog;
 import UI.methods.CreateTrainingPlanDialog;
+import UI.methods.FontSelector;
 import UI.methods.calculateFTPDialog;
 import java.awt.*;
 import java.awt.event.*;
@@ -65,7 +66,7 @@ public class GUI extends JFrame { // Define a class named GUI which extends JFra
 
         // Initialize text area
         outputTextArea = new JTextArea();
-        outputTextArea.setEditable(false);
+        outputTextArea.setEditable(true);
         outputTextArea.setFont(new Font("Montserrat", Font.PLAIN, 16));
         JScrollPane scrollPane = new JScrollPane(outputTextArea);
 
@@ -113,6 +114,9 @@ public class GUI extends JFrame { // Define a class named GUI which extends JFra
         CreateNutritionPlanDialog dialog = new CreateNutritionPlanDialog(this);
         dialog.setVisible(true);
     }
+
+    FontSelector fontSelector = new FontSelector(outputTextArea);
+
 
     // Method to handle Save Data button click
     private void saveData() {
