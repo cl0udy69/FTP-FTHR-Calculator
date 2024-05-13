@@ -381,5 +381,8 @@ public class CreateNutritionPlanDialog extends JDialog {
             JOptionPane.showMessageDialog(parentGUI, "Please enter valid numbers for all fields.", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
-    }
-}
+        }
+    }   
+
+
+
