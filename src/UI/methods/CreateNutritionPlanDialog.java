@@ -42,70 +42,61 @@ public class CreateNutritionPlanDialog extends JDialog {
 
     private GUI parentGUI;
 
-    // Constructor
     public CreateNutritionPlanDialog(GUI parentGUI) {
-        super(parentGUI, "Create Nutrition Plan", true); // Call parent constructor with title and modality
-        setSize(450, 500); // Set dialog size
-        setLocationRelativeTo(parentGUI); // Set dialog location relative to parent GUI
-        setLayout(new BorderLayout()); // Set layout for the dialog
+        super(parentGUI, "Create Nutrition Plan", true);
+        setSize(450, 500);
+        setLocationRelativeTo(parentGUI);
+        setLayout(new BorderLayout());
 
-        this.parentGUI = parentGUI; // Assign parent GUI
+        this.parentGUI = parentGUI;
 
-        JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10)); // Create input panel
-        inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30)); // Add empty border for spacing
+        JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
+        inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
 
-        // Display option dialog to choose objective
         String[] options = { "Gain Weight", "Lose Weight", "Cycling", "Running" };
         int choice = JOptionPane.showOptionDialog(null, "Select One", "Choose Objective",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         if (choice == JOptionPane.CLOSED_OPTION) {
             dispose();
-            return; // User closed the dialog
+            return;
         }
 
-        // Check selected objective and initialize input panel accordingly
         if (options[choice].equals("Cycling")) {
-            // Display another option dialog to choose cycling type
             String[] cyclingOptions = { "General", "Training Ride" };
-            
             int cyclingChoice = JOptionPane.showOptionDialog(null, "Select One", "Choose Cycling Type",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, cyclingOptions,
                     cyclingOptions[0]);
 
             if (cyclingChoice == JOptionPane.CLOSED_OPTION) {
                 dispose();
-                return; // User closed the dialog
+                return;
             } else if (cyclingOptions[cyclingChoice].equals("General")) {
                 initializeGeneralCyclingNutritionInputPanel(inputPanel);
             } else if (cyclingOptions[cyclingChoice].equals("Training Ride")) {
                 initializeTrainingRideCyclingNutritionInputPanel(inputPanel);
             }
-        
-        } else if (cyclingOptions[cyclingChoice].equals("Gain Weight")){
+        } else if (options[choice].equals("Gain Weight")) {
             initializeGainWeightInputPanel(inputPanel);
-        
-        } else if (cyclingOptions[cyclingChoice].equals("Lose Weight")) {
-            initializeGainWeightInputPanell(inputPanel);
-        
-        } if (options[choice.equals("Running")]) { 
+        } else if (options[choice].equals("Lose Weight")) {
+            initializeGainWeightInputPanel(inputPanel);
+        } else if (options[choice].equals("Running")) {
             String[] runningOptions = {"General", "Training Run"};
-            
-            int runningChoice = JOptionPane.showOptionDialog(null, "Select One", "Choose Cycling Type",
+            int runningChoice = JOptionPane.showOptionDialog(null, "Select One", "Choose Running Type",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, runningOptions,
-                    cyclingOptions[0]);
+                    runningOptions[0]);
 
-            if (runningChoice == JOptionPane.CLOSED) {
+            if (runningChoice == JOptionPane.CLOSED_OPTION) {
                 dispose();
                 return;
             } else if (runningOptions[runningChoice].equals("General")) {
                 initializeGeneralCyclingNutritionInputPanel(inputPanel);
             } else if (runningOptions[runningChoice].equals("Training Run")) {
-                initializeGeneralCyclingNutritionInputPanel(inputPanel);
+                initializeTrainingRideCyclingNutritionInputPanel(inputPanel);
             }
+        }
 
-        // Add input panel to the dialog
         add(inputPanel, BorderLayout.CENTER);
-        setVisible(true); // Make the dialog visible after adding components
+        setVisible(true);
     }
 
     // Method to initialize input panel for general cycling nutrition plan
@@ -381,8 +372,8 @@ public class CreateNutritionPlanDialog extends JDialog {
             JOptionPane.showMessageDialog(parentGUI, "Please enter valid numbers for all fields.", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
-        }
-    }   
+    }
+}   
 
 
 
