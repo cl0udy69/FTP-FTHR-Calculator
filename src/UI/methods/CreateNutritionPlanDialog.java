@@ -53,7 +53,7 @@ public class CreateNutritionPlanDialog extends JDialog {
         JPanel inputPanel = new JPanel(new GridLayout(13, 2, 10, 10));
         inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
 
-        String[] options = { "Gain Weight", "Lose Weight", "Cycling", "Running" };
+        String[] options = { "Gain Weight", "Lose Weight", "Cycling", "Running", "Track Nutrition"};
         int choice = JOptionPane.showOptionDialog(null, "Select One", "Choose Objective",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         if (choice == JOptionPane.CLOSED_OPTION) {

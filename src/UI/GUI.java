@@ -20,7 +20,7 @@ public class GUI extends JFrame { // Define a class named GUI which extends JFra
     // Constructor
     public GUI() {
         setTitle("Propel"); // Set window title
-        setSize(800, 400); // Set window size
+        setSize(800, 500); // Set window size
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Set default close operation
         setLayout(new BorderLayout()); // Set layout for the frame
 
@@ -40,8 +40,8 @@ public class GUI extends JFrame { // Define a class named GUI which extends JFra
     // Method to initialize UI components
     private void initializeComponents() {
         // Create button panel
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 5, 20, 20));
-        buttonPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        JPanel buttonPanel = new JPanel(new GridLayout(4, 2, 25, 15));
+        buttonPanel.setBorder(new EmptyBorder(25, 25, 25, 25));
 
         // Initialize buttons
         calculateFTPButton = new JButton("Calculate FTP");
